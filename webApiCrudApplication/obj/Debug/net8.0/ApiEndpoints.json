@@ -1,0 +1,60 @@
+[
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "AddInformation",
+    "RelativePath": "api/CrudApplication/AddInformation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "webApiCrudApplication.CommonLayer.model.AddInformationRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "DeleteInfomationById",
+    "RelativePath": "api/CrudApplication/DeleteInfomationById",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "webApiCrudApplication.CommonLayer.model.DeleteInformationByIdRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "ReadAllInformation",
+    "RelativePath": "api/CrudApplication/ReadAllInformation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "UpdateAllInformationById",
+    "RelativePath": "api/CrudApplication/UpdateAllInformationById",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "webApiCrudApplication.CommonLayer.model.UpdateAllInformationByIdRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

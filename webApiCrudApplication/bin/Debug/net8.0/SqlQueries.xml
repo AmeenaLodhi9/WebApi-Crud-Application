@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Queries>
+	<AddInformation>
+		Insert into crudoperation.crudapplication(UserName,EmailId,MobileNumber,Gender,Salary)
+		values(@UserName,@EmailId,@MobileNumber,@Gender,@Salary);
+
+	</AddInformation>
+	<ReadAllInformation>
+		SELECT * 
+		FROM crudoperation.crudapplication
+		where IsActive=1;
+	</ReadAllInformation>
+	<UpdateAllInformationById>
+		Update crudoperation.crudapplication
+		SET UserName=@UserName,
+			EmailId=@EmailId,
+			MobileNumber=@MobileNumber,
+			Gender=@Gender,
+			Salary=@Salary
+			WHERE UserID = @UserID;
+	</UpdateAllInformationById>
+	<DeleteInformationById>
+		UPDATE crudoperation.crudapplication
+		SET IsActive =0
+		WHERE UserId= @UserId;
+	</DeleteInformationById>
+</Queries>
