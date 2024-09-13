@@ -33,3 +33,11 @@ C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\obj\Debug\n
 C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\MySqlConnector.dll
 C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\SqlQueries.xml
 C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\obj\Debug\net8.0\webApiCrudApplication.sourcelink.json
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\HP\source\repos\webApiCrudApplication\webApiCrudApplication\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

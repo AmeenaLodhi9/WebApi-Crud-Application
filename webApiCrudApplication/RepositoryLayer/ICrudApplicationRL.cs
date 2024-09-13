@@ -8,6 +8,7 @@ namespace webApiCrudApplication.RepositoryLayer
         Task<ReadAllInformationResponse> ReadAllInformation();
         Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request);
         Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request);
+        Task<GetInformationByIdResponse> GetInformationById(int id);
 
         public interface ICrudApplicationRL
         {
@@ -15,7 +16,7 @@ namespace webApiCrudApplication.RepositoryLayer
             public Task<ReadAllInformationResponse> ReadAllInformation();
             public Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request);
             public Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request);
-
+            public Task<GetInformationByIdResponse> GetInformationById(int id);
         }
     }
 }

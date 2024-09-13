@@ -33,6 +33,22 @@
   },
   {
     "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "GetInformationById",
+    "RelativePath": "api/CrudApplication/GetInformationById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
     "Method": "ReadAllInformation",
     "RelativePath": "api/CrudApplication/ReadAllInformation",
     "HttpMethod": "GET",

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using webApiCrudApplication.Common_Util;
 using webApiCrudApplication.RepositoryLayer;
 using webApiCrudApplication.Services;
@@ -17,6 +18,25 @@ builder.Services.AddScoped<ICrudApplicationRL, CrudApplicationRL>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState.Values
+            .SelectMany(v => v.Errors)
+            .Select(e => e.ErrorMessage).ToList();
+
+        var result = new
+        {
+            IsSuccess = false,
+            Message = "Validation errors occurred.",
+            Errors = errors
+        };
+
+        return new BadRequestObjectResult(result);
+    };
+});
+
 var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
@@ -34,6 +54,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

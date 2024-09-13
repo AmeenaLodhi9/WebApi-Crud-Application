@@ -24,4 +24,9 @@
 		SET IsActive =0
 		WHERE UserId= @UserId;
 	</DeleteInformationById>
+	<GetInformationById>
+		SELECT * 
+		FROM crudoperation.crudapplication
+		WHERE UserID = @UserId;
+	</GetInformationById>
 </Queries>

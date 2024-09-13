@@ -6,7 +6,7 @@ namespace webApiCrudApplication.Services
     public class CrudApplicationSL : ICrudApplicationSL
     {
         private readonly ICrudApplicationRL _crudApplicationRL;
-
+        //public readonly string EmailRegex= @"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,3})?$";
         public CrudApplicationSL(ICrudApplicationRL crudApplicationRL)
         {
             _crudApplicationRL = crudApplicationRL;
@@ -56,8 +56,6 @@ namespace webApiCrudApplication.Services
             // Continue with adding information using the repository layer
             return await _crudApplicationRL.AddInformation(request);
         }
-
-
 
         public async Task<ReadAllInformationResponse> ReadAllInformation()
         {
@@ -115,5 +113,47 @@ namespace webApiCrudApplication.Services
             // Continue with adding information using the repository layer
             return await _crudApplicationRL.DeleteInformationById(request);
         }
+
+        public async Task<GetInformationByIdResponse> GetInformationById(int id)
+        {
+            // Initialize the response object with default values
+            GetInformationByIdResponse response = new GetInformationByIdResponse
+            {
+                Message = "", // Set a default or empty message
+                IsSuccess = true,
+                IsActive = false // Default value, change as needed
+            };
+
+            // Get data from the repository by ID
+            var result = await _crudApplicationRL.GetInformationById(id);
+
+            // Check if result is valid and if the repository returned the correct data
+            if (result != null && result.IsSuccess)
+            {
+                // Map the result to the response object
+                response = new GetInformationByIdResponse
+                {
+                    UserID = result.UserID,
+                    UserName = result.UserName,
+                    EmailId = result.EmailId,
+                    MobileNumber = result.MobileNumber,
+                    Salary = result.Salary,
+                    Gender = result.Gender,
+                    IsActive = result.IsActive, // Ensure this property is being set
+                    IsSuccess = true,
+                    Message = "Data retrieved successfully."
+                };
+            }
+            else
+            {
+                // If no data found or some error occurred, set the appropriate message and success flag
+                response.IsSuccess = false;
+                response.Message = result?.Message ?? "No data found for the provided ID.";
+                response.IsActive = false; // Ensure IsActive is set even in error cases
+            }
+
+            return response;
+        }
+
     }
 }

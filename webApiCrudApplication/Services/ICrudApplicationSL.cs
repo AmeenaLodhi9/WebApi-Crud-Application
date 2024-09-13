@@ -8,6 +8,7 @@ namespace webApiCrudApplication.Services
         public Task<ReadAllInformationResponse> ReadAllInformation();
         public Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request);
         public Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request);
+        public Task<GetInformationByIdResponse> GetInformationById(int id);
 
     }
 }

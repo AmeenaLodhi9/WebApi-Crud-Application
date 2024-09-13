@@ -1,5 +1,6 @@
 ﻿using MySqlConnector;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using webApiCrudApplication.Common_Util;
 using webApiCrudApplication.CommonLayer.model;
@@ -38,6 +39,7 @@ namespace webApiCrudApplication.RepositoryLayer
                 Message = "Success", // Set a default or empty message
                 IsSuccess = true
             };
+
             try
             {
                 if (_mySqlConnection.State != System.Data.ConnectionState.Open)
@@ -240,6 +242,73 @@ namespace webApiCrudApplication.RepositoryLayer
             }
             return response;
         }
+
+        public async Task<GetInformationByIdResponse> GetInformationById(int id)
+        {
+            GetInformationByIdResponse response = new GetInformationByIdResponse
+            {
+                Message = "", // Default message
+                IsSuccess = true,
+                IsActive = false // Default to false, can be changed based on data
+            };
+
+            try
+            {
+                // Create the command using the query from SqlQueries
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.GetInformationById, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@UserID", id);
+
+                    // Open the connection if it's not already open
+                    if (_mySqlConnection.State != ConnectionState.Open)
+                    {
+                        await _mySqlConnection.OpenAsync();
+                    }
+
+                    // Execute the query and process the result
+                    using (MySqlDataReader reader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                response = new GetInformationByIdResponse
+                                {
+                                    UserID = reader.GetInt32("UserId"),
+                                    UserName = reader.GetString("UserName"),
+                                    EmailId = reader.GetString("EmailId"),
+                                    MobileNumber = reader.GetString("MobileNumber"),
+                                    Salary = reader.GetInt32("Salary"),
+                                    Gender = reader.GetString("Gender"),
+                                    IsActive = reader.GetBoolean("IsActive"),
+                                    IsSuccess = true,
+                                    Message = "Data retrieved successfully."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            response.IsSuccess = false;
+                            response.Message = "No data found for the provided ID.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+            }
+
+            return response;
+        }
+
 
     }
 }

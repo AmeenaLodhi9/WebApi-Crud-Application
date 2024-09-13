@@ -46,6 +46,14 @@ namespace webApiCrudApplication.Common_Util
                 return _configuration["DeleteInformationById"] ?? "Default SQL Query";
             }
         }
+        public static string GetInformationById
+        {
+            get
+            {
+                // Return the value of AddInformation or a default query if the key is missing
+                return _configuration["GetInformationById"] ?? "Default SQL Query";
+            }
+        }
 
     }
 }
