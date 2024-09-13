@@ -6,10 +6,22 @@
 
 	</AddInformation>
 	<ReadAllInformation>
-		SELECT *
-		FROM crudoperation.crudapplication
-		where IsActive=1
-		LIMIT @PageSize OFFSET @Offset;
+		<![CDATA[
+    SELECT *
+    FROM crudoperation.crudapplication
+    WHERE IsActive = 1
+    ORDER BY
+    CASE
+      WHEN @SortBy = 'UserName' THEN UserName
+      WHEN @SortBy = 'EmailId' THEN EmailId
+      WHEN @SortBy = 'Salary' THEN Salary
+      WHEN @SortBy = 'Gender' THEN Gender
+      ELSE UserID
+    END @SortDirection
+    LIMIT @PageSize OFFSET @Offset;
+    ]]>
+
+
 	</ReadAllInformation>
 	<UpdateAllInformationById>
 		Update crudoperation.crudapplication

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.Services;
 
@@ -87,7 +88,7 @@ namespace webApiCrudApplication.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ReadAllInformation([FromQuery] int? PageNumber, [FromQuery] int? PageSize)
+        public async Task<IActionResult> ReadAllInformation([FromQuery] int? PageNumber, [FromQuery] int? PageSize, [FromQuery] string SortBy, [FromQuery] string SortDirection)
         {
             ReadAllInformationResponse? response = null;
 
@@ -108,7 +109,9 @@ namespace webApiCrudApplication.Controllers
                 var request = new GetReadAllInformationRequest
                 {
                     PageNumber = PageNumber.Value,
-                    PageSize = PageSize.Value
+                    PageSize = PageSize.Value,
+                    SortBy = SortBy, // Pass SortBy to the request
+                    SortDirection = SortDirection // Pass SortDirection to the request
                 };
 
                 // Call service layer to get the data
@@ -144,11 +147,11 @@ namespace webApiCrudApplication.Controllers
 
             if (response.IsSuccess)
             {
-                return Ok(response);//(new { IsSuccess = response.IsSuccess, Data = response });
+                return Ok(new { Data = response });
             }
             else
             {
-                return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message, });
             }
         }
 
@@ -158,7 +161,7 @@ namespace webApiCrudApplication.Controllers
             UpdateAllInformationByIdResponse response = new UpdateAllInformationByIdResponse
             {
                 Message = "Record Update successfully", // Set a default value to avoid the error
-                IsSuccess = true
+                //IsSuccess = true
 
             };
 
@@ -173,7 +176,7 @@ namespace webApiCrudApplication.Controllers
                 response.Message = ex.Message;
 
             }
-            return Ok(response);
+            return Ok(new {Data = response });
         }
 
         [HttpDelete]

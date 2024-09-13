@@ -13,6 +13,8 @@
         public  bool IsActive { get; set; }
         public int? PageNumber { get; set; }  // Optional
         public int? PageSize { get; set; }
+        public string SortBy { get; set; } // Field name to sort by
+        public string SortDirection { get; set; } // 'asc' or 'desc'
 
     }
     public class ReadAllInformationResponse

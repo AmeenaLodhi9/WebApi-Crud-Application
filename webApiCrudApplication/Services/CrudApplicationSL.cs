@@ -141,8 +141,9 @@ namespace webApiCrudApplication.Services
                     Gender = result.Gender,
                     IsActive = result.IsActive, // Ensure this property is being set
                     IsSuccess = true,
-                    Message = "Data retrieved successfully."
+                   Message = "Data retrieved successfully."
                 };
+
             }
             else
             {

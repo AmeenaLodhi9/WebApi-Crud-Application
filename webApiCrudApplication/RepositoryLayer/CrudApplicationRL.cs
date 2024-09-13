@@ -96,7 +96,29 @@ namespace webApiCrudApplication.RepositoryLayer
                 int pageNumber = request.PageNumber ?? 1;  // Default to page 1 if not provided
                 int offset = (pageNumber - 1) * pageSize;  // Calculate the offset
 
-                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadAllInformation, _mySqlConnection))
+                string sortBy = string.IsNullOrEmpty(request.SortBy) ? "UserID" : request.SortBy; // Default sort column
+                string sortDirection = request.SortDirection?.ToLower() == "desc" ? "DESC" : "ASC"; // Default to ascending
+
+
+                // Ensure the SortBy column is valid to prevent SQL injection
+                var validSortColumns = new List<string> { "UserID", "UserName", "EmailId", "Salary", "Gender" };
+                if (!validSortColumns.Contains(sortBy))
+                {
+                    sortBy = "UserID"; // Default to UserID if invalid column is provided
+                }
+
+
+
+                // Dynamically construct the SQL query with ORDER BY and LIMIT clauses
+                string query = $@"
+                    SELECT * 
+                    FROM crudoperation.crudapplication
+                    WHERE IsActive = 1
+                    ORDER BY {sortBy} {sortDirection}
+                    LIMIT @PageSize OFFSET @Offset;
+                ";
+
+                using (MySqlCommand sqlCommand = new MySqlCommand(query, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
