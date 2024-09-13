@@ -1,26 +1,28 @@
 ﻿namespace webApiCrudApplication.CommonLayer.model
 {
 
-    public class GetReadAllInformation
+    public class GetReadAllInformationRequest
     {
 
-        public required int UserID { get; set; }
-        public required string UserName { get; set; }
-        public required string EmailId { get; set; }
-        public required string MobileNumber { get; set; }
-        public required int Salary { get; set; }
-        public required string Gender { get; set; }
-        public required bool IsActive { get; set; }
+        public int? UserID { get; set; }
+        public  string UserName { get; set; }
+        public  string EmailId { get; set; }
+        public  string MobileNumber { get; set; }
+        public  int Salary { get; set; }
+        public  string Gender { get; set; }
+        public  bool IsActive { get; set; }
+        public int? PageNumber { get; set; }  // Optional
+        public int? PageSize { get; set; }
 
     }
     public class ReadAllInformationResponse
     {
         public bool IsSuccess { get; set; }  // Corrected property name
         public required string Message { get; set; }
-        public List<GetReadAllInformation> readAllInformation { get; set; }
+        public List<GetReadAllInformationRequest> readAllInformation { get; set; }
         public ReadAllInformationResponse()
         {
-            readAllInformation = new List<GetReadAllInformation>();
+            readAllInformation = new List<GetReadAllInformationRequest>();
         }
 
     }

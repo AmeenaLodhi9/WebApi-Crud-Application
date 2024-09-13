@@ -15,40 +15,40 @@
       "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\repositorylayer\\crudapplicationrl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\getinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\getinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\services\\icrudapplicationsl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\services\\icrudapplicationsl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\sqlqueries.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\sqlqueries.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\addinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\addinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\deleteinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\deleteinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\readallinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\readallinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\updateallinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\updateallinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\sqlqueries.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\sqlqueries.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\getinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\getinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\repositorylayer\\icrudapplicationrl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\repositorylayer\\icrudapplicationrl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\addinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\addinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\common util\\sqlqueries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\common util\\sqlqueries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\deleteinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\deleteinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\commonlayer\\model\\updateallinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|solutionrelative:webapicrudapplication\\commonlayer\\model\\updateallinformationbyid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E66CA61-CF9F-47BE-A2AC-4595600C72C5}|webApiCrudApplication\\webApiCrudApplication.csproj|c:\\users\\hp\\source\\repos\\webapicrudapplication\\webapicrudapplication\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -74,47 +74,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CrudApplicationRL.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
-              "RelativeToolTip": "webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
-              "ViewState": "AgIAAMYAAAAAAAAAAAAlwPcAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T08:51:51.459Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GetInformationById.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
-              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAA+wA4AAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-12T08:40:35.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CrudApplicationSL.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Services\\CrudApplicationSL.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\Services\\CrudApplicationSL.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Services\\CrudApplicationSL.cs",
-              "RelativeToolTip": "webApiCrudApplication\\Services\\CrudApplicationSL.cs",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAYwIIAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T09:03:01.11Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -123,26 +84,14 @@
               "RelativeDocumentMoniker": "webApiCrudApplication\\Controllers\\CrudApplicationController.cs",
               "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Controllers\\CrudApplicationController.cs",
               "RelativeToolTip": "webApiCrudApplication\\Controllers\\CrudApplicationController.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAgwHgAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAowHQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-10T08:52:29.931Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SqlQueries.xml",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\SqlQueries.xml",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\SqlQueries.xml",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\SqlQueries.xml",
-              "RelativeToolTip": "webApiCrudApplication\\SqlQueries.xml",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB0AAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2024-09-10T09:11:36.387Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "ICrudApplicationSL.cs",
               "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Services\\ICrudApplicationSL.cs",
               "RelativeDocumentMoniker": "webApiCrudApplication\\Services\\ICrudApplicationSL.cs",
@@ -155,7 +104,111 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CrudApplicationSL.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Services\\CrudApplicationSL.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\Services\\CrudApplicationSL.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Services\\CrudApplicationSL.cs",
+              "RelativeToolTip": "webApiCrudApplication\\Services\\CrudApplicationSL.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAYwEsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T09:03:01.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CrudApplicationRL.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
+              "RelativeToolTip": "webApiCrudApplication\\RepositoryLayer\\CrudApplicationRL.cs",
+              "ViewState": "AgIAAGcAAAAAAAAAAAAgwGwAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T08:51:51.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ReadAllInformation.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
+              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA4wA0AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T08:57:42.073Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SqlQueries.xml",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\SqlQueries.xml",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\SqlQueries.xml",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\SqlQueries.xml",
+              "RelativeToolTip": "webApiCrudApplication\\SqlQueries.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwAsAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-09-10T09:11:36.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GetInformationById.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
+              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\GetInformationById.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAMAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T08:40:35.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "ICrudApplicationRL.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
+              "RelativeToolTip": "webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwA4AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T09:05:05.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AddInformation.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
+              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T12:50:57.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SqlQueries.cs",
+              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Common Util\\SqlQueries.cs",
+              "RelativeDocumentMoniker": "webApiCrudApplication\\Common Util\\SqlQueries.cs",
+              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Common Util\\SqlQueries.cs",
+              "RelativeToolTip": "webApiCrudApplication\\Common Util\\SqlQueries.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAgwDUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-10T09:10:29.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "DeleteInformationById.cs",
               "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\DeleteInformationById.cs",
               "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\DeleteInformationById.cs",
@@ -167,31 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ReadAllInformation.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
-              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\ReadAllInformation.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAA3wAwAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T08:57:42.073Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AddInformation.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
-              "RelativeToolTip": "webApiCrudApplication\\CommonLayer\\model\\AddInformation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-12T12:50:57.126Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "UpdateAllInformationById.cs",
               "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\CommonLayer\\model\\UpdateAllInformationById.cs",
               "RelativeDocumentMoniker": "webApiCrudApplication\\CommonLayer\\model\\UpdateAllInformationById.cs",
@@ -201,30 +230,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-10T08:56:42.661Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ICrudApplicationRL.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
-              "RelativeToolTip": "webApiCrudApplication\\RepositoryLayer\\ICrudApplicationRL.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAwwBIAAABPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T09:05:05.228Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "SqlQueries.cs",
-              "DocumentMoniker": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Common Util\\SqlQueries.cs",
-              "RelativeDocumentMoniker": "webApiCrudApplication\\Common Util\\SqlQueries.cs",
-              "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\Common Util\\SqlQueries.cs",
-              "RelativeToolTip": "webApiCrudApplication\\Common Util\\SqlQueries.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAgwDUAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-10T09:10:29.828Z"
             },
             {
               "$type": "Document",
@@ -259,7 +264,8 @@
               "ToolTip": "C:\\Users\\HP\\source\\repos\\webApiCrudApplication\\webApiCrudApplication\\webApiCrudApplication.csproj",
               "RelativeToolTip": "webApiCrudApplication\\webApiCrudApplication.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-09-11T09:34:43.329Z"
+              "WhenOpened": "2024-09-11T09:34:43.329Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -271,7 +277,8 @@
               "RelativeToolTip": "webApiCrudApplication\\webApiCrudApplication.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-09-11T09:33:00.257Z"
+              "WhenOpened": "2024-09-11T09:33:00.257Z",
+              "EditorCaption": ""
             }
           ]
         }

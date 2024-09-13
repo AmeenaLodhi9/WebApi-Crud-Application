@@ -6,9 +6,10 @@
 
 	</AddInformation>
 	<ReadAllInformation>
-		SELECT * 
+		SELECT *
 		FROM crudoperation.crudapplication
-		where IsActive=1;
+		where IsActive=1
+		LIMIT @PageSize OFFSET @Offset;
 	</ReadAllInformation>
 	<UpdateAllInformationById>
 		Update crudoperation.crudapplication
@@ -25,7 +26,7 @@
 		WHERE UserId= @UserId;
 	</DeleteInformationById>
 	<GetInformationById>
-		SELECT * 
+		SELECT *
 		FROM crudoperation.crudapplication
 		WHERE UserID = @UserId;
 	</GetInformationById>

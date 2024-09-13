@@ -57,11 +57,11 @@ namespace webApiCrudApplication.Services
             return await _crudApplicationRL.AddInformation(request);
         }
 
-        public async Task<ReadAllInformationResponse> ReadAllInformation()
+        public async Task<ReadAllInformationResponse> ReadAllInformation(GetReadAllInformationRequest request)
         {
             try
             {
-                return await _crudApplicationRL.ReadAllInformation();
+                return await _crudApplicationRL.ReadAllInformation(request);
             }
             catch (Exception ex)
             {

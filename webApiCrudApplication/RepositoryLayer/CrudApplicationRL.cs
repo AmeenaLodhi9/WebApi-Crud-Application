@@ -82,7 +82,7 @@ namespace webApiCrudApplication.RepositoryLayer
 
 
 
-        public async Task<ReadAllInformationResponse> ReadAllInformation()
+        public async Task<ReadAllInformationResponse> ReadAllInformation(GetReadAllInformationRequest request)
         {
             ReadAllInformationResponse response = new ReadAllInformationResponse
             {
@@ -92,10 +92,17 @@ namespace webApiCrudApplication.RepositoryLayer
 
             try
             {
+                int pageSize = request.PageSize ?? 10;  // Default page size if not provided
+                int pageNumber = request.PageNumber ?? 1;  // Default to page 1 if not provided
+                int offset = (pageNumber - 1) * pageSize;  // Calculate the offset
+
                 using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadAllInformation, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@PageSize", pageSize);
+                    sqlCommand.Parameters.AddWithValue("@Offset", offset);
+
                     if (_mySqlConnection.State != System.Data.ConnectionState.Open)
                     {
                         await _mySqlConnection.OpenAsync();
@@ -105,10 +112,10 @@ namespace webApiCrudApplication.RepositoryLayer
                     {
                         if (reader.HasRows)
                         {
-                            response.readAllInformation = new List<GetReadAllInformation>();
+                            response.readAllInformation = new List<GetReadAllInformationRequest>();
                             while (await reader.ReadAsync())
                             {
-                                GetReadAllInformation getdata = new GetReadAllInformation
+                                GetReadAllInformationRequest getdata = new GetReadAllInformationRequest
                                 {
                                     UserID = reader.IsDBNull(reader.GetOrdinal("UserId")) ? default : reader.GetInt32(reader.GetOrdinal("UserId")),
                                     UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "DefaultUserName" : reader.GetString(reader.GetOrdinal("UserName")),
@@ -143,6 +150,7 @@ namespace webApiCrudApplication.RepositoryLayer
 
             return response; // Ensure that a value is returned from all paths
         }
+
 
         public async Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
 

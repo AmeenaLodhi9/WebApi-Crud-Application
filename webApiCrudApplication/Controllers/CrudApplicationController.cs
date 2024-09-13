@@ -87,26 +87,55 @@ namespace webApiCrudApplication.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ReadAllInformation()
+        public async Task<IActionResult> ReadAllInformation([FromQuery] int? PageNumber, [FromQuery] int? PageSize)
         {
-            ReadAllInformationResponse response;
+            ReadAllInformationResponse? response = null;
 
             try
             {
-                // Assuming Get() method in _cRudApplicationSL returns ReadAllInformationResponse
-                response = await _cRudApplicationSL.ReadAllInformation(); // Removed request if not required
+                // Ensure PageNumber and PageSize have default values if not provided
+                if (PageNumber == null || PageNumber <= 0)
+                {
+                    PageNumber = 1; // Default page number
+                }
+
+                if (PageSize == null || PageSize <= 0)
+                {
+                    PageSize = 10; // Default page size
+                }
+
+                // Create request object to pass to service layer
+                var request = new GetReadAllInformationRequest
+                {
+                    PageNumber = PageNumber.Value,
+                    PageSize = PageSize.Value
+                };
+
+                // Call service layer to get the data
+                response = await _cRudApplicationSL.ReadAllInformation(request);
+
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+
+                // Return success response with data
+                return Ok(new { IsSuccess = response.IsSuccess, Data = response.readAllInformation });
             }
             catch (Exception ex)
             {
+                // Handle exception and return error response
                 response = new ReadAllInformationResponse
                 {
                     IsSuccess = false,
                     Message = ex.Message
                 };
-            }
 
-            return Ok(response);
+                return StatusCode(500, new { IsSuccess = response.IsSuccess, Message = response.Message });
+            }
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> GetInformationById(int id)
