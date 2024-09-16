@@ -140,20 +140,37 @@ namespace webApiCrudApplication.Controllers
 
 
 
+        
         [HttpGet]
         public async Task<IActionResult> GetInformationById(int id)
         {
-            var response = await _cRudApplicationSL.GetInformationById(id);
+            GetInformationByIdResponse response = new GetInformationByIdResponse
+            {
+                Message = ""
+            };
 
-            if (response.IsSuccess)
+            try
             {
-                return Ok(new { Data = response });
+                // Call service layer to get the information
+                response = await _cRudApplicationSL.GetInformationById(id);
+
+                if (response.IsSuccess)
+                {
+                    return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.Data });
+                }
+                else
+                {
+                    return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message, });
+                // Handle exceptions and return internal server error
+                return StatusCode(500, new { IsSuccess = false, Message = ex.Message });
             }
         }
+
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
@@ -176,7 +193,7 @@ namespace webApiCrudApplication.Controllers
                 response.Message = ex.Message;
 
             }
-            return Ok(new {Data = response });
+            return Ok(new { Data = response });
         }
 
         [HttpDelete]

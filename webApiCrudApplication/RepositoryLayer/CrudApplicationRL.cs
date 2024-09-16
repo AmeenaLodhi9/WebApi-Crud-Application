@@ -273,55 +273,55 @@ namespace webApiCrudApplication.RepositoryLayer
             return response;
         }
 
+
+
+
+
         public async Task<GetInformationByIdResponse> GetInformationById(int id)
         {
+            // Initialize the response object with default values
             GetInformationByIdResponse response = new GetInformationByIdResponse
             {
-                Message = "", // Default message
+                Message = "Data Retrieved Succesfully ", // Set a default or empty message
                 IsSuccess = true,
-                IsActive = false // Default to false, can be changed based on data
             };
 
             try
             {
-                // Create the command using the query from SqlQueries
                 using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.GetInformationById, _mySqlConnection))
                 {
-                    sqlCommand.CommandType = CommandType.Text;
-                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.Parameters.AddWithValue("@UserID", id);
 
-                    // Open the connection if it's not already open
-                    if (_mySqlConnection.State != ConnectionState.Open)
+                    if (_mySqlConnection.State != System.Data.ConnectionState.Open)
                     {
                         await _mySqlConnection.OpenAsync();
                     }
 
-                    // Execute the query and process the result
                     using (MySqlDataReader reader = await sqlCommand.ExecuteReaderAsync())
                     {
                         if (reader.HasRows)
                         {
                             while (await reader.ReadAsync())
                             {
-                                response = new GetInformationByIdResponse
+                                GetInformationByIdRequest getdata = new GetInformationByIdRequest
                                 {
-                                    UserID = reader.GetInt32("UserId"),
-                                    UserName = reader.GetString("UserName"),
-                                    EmailId = reader.GetString("EmailId"),
-                                    MobileNumber = reader.GetString("MobileNumber"),
-                                    Salary = reader.GetInt32("Salary"),
-                                    Gender = reader.GetString("Gender"),
-                                    IsActive = reader.GetBoolean("IsActive"),
-                                    IsSuccess = true,
-                                    Message = "Data retrieved successfully."
+                                    UserID = reader.IsDBNull(reader.GetOrdinal("UserID")) ? default : reader.GetInt32(reader.GetOrdinal("UserID")),
+                                    UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "DefaultUserName" : reader.GetString(reader.GetOrdinal("UserName")),
+                                    EmailId = reader.IsDBNull(reader.GetOrdinal("EmailId")) ? "DefaultEmailId" : reader.GetString(reader.GetOrdinal("EmailId")),
+                                    MobileNumber = reader.IsDBNull(reader.GetOrdinal("MobileNumber")) ? "DefaultMobileNumber" : reader.GetString(reader.GetOrdinal("MobileNumber")),
+                                    Salary = reader.IsDBNull(reader.GetOrdinal("Salary")) ? 0 : reader.GetInt32(reader.GetOrdinal("Salary")),
+                                    Gender = reader.IsDBNull(reader.GetOrdinal("Gender")) ? "DefaultGender" : reader.GetString(reader.GetOrdinal("Gender")),
+                                    IsActive = reader.IsDBNull(reader.GetOrdinal("IsActive")) ? default : reader.GetBoolean(reader.GetOrdinal("IsActive"))
                                 };
+
+                                response.Data = getdata; // Ensure mapping here
                             }
                         }
                         else
                         {
                             response.IsSuccess = false;
-                            response.Message = "No data found for the provided ID.";
+                            response.Message = "Record Not Found";
                         }
                     }
                 }
@@ -334,11 +334,10 @@ namespace webApiCrudApplication.RepositoryLayer
             finally
             {
                 await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
             }
 
             return response;
         }
-
-
     }
 }
