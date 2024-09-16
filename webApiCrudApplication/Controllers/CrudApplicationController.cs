@@ -88,8 +88,16 @@ namespace webApiCrudApplication.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ReadAllInformation([FromQuery] int? PageNumber, [FromQuery] int? PageSize, [FromQuery] string SortBy, [FromQuery] string SortDirection)
-        {
+        public async Task<IActionResult> ReadAllInformation(
+              [FromQuery] int? PageNumber,
+            [FromQuery] int? PageSize,
+            [FromQuery] string SortBy = null,  
+            [FromQuery] string SortDirection = null,  
+            [FromQuery] string UserName = null,  // Optional
+            [FromQuery] string EmailId = null,   // Optional
+            [FromQuery] int? Salary = null,      // Optional
+            [FromQuery] string Gender = null  )   // Optional)   // New filter parameter
+            {
             ReadAllInformationResponse? response = null;
 
             try
@@ -105,13 +113,17 @@ namespace webApiCrudApplication.Controllers
                     PageSize = 10; // Default page size
                 }
 
-                // Create request object to pass to service layer
+                // Create request object to pass to the service layer
                 var request = new GetReadAllInformationRequest
                 {
                     PageNumber = PageNumber.Value,
                     PageSize = PageSize.Value,
                     SortBy = SortBy, // Pass SortBy to the request
-                    SortDirection = SortDirection // Pass SortDirection to the request
+                    SortDirection = SortDirection, // Pass SortDirection to the request
+                    UserName = UserName, // Filter by UserName
+                    EmailId = EmailId,   // Filter by EmailId
+                    Salary = Salary ?? 0, // Filter by Salary (0 means no filter)
+                    Gender = Gender // Filter by Gender
                 };
 
                 // Call service layer to get the data
@@ -140,7 +152,8 @@ namespace webApiCrudApplication.Controllers
 
 
 
-        
+
+
         [HttpGet]
         public async Task<IActionResult> GetInformationById(int id)
         {

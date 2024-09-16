@@ -92,38 +92,80 @@ namespace webApiCrudApplication.RepositoryLayer
 
             try
             {
-                int pageSize = request.PageSize ?? 10;  // Default page size if not provided
-                int pageNumber = request.PageNumber ?? 1;  // Default to page 1 if not provided
-                int offset = (pageNumber - 1) * pageSize;  // Calculate the offset
+                int pageSize = request.PageSize ?? 10;
+                int pageNumber = request.PageNumber ?? 1;
+                int offset = (pageNumber - 1) * pageSize;
 
-                string sortBy = string.IsNullOrEmpty(request.SortBy) ? "UserID" : request.SortBy; // Default sort column
-                string sortDirection = request.SortDirection?.ToLower() == "desc" ? "DESC" : "ASC"; // Default to ascending
+                string sortBy = string.IsNullOrEmpty(request.SortBy) ? "UserID" : request.SortBy;
+                string sortDirection = request.SortDirection?.ToLower() == "desc" ? "DESC" : "ASC";
 
-
-                // Ensure the SortBy column is valid to prevent SQL injection
+                // Validate sort column to prevent SQL injection
                 var validSortColumns = new List<string> { "UserID", "UserName", "EmailId", "Salary", "Gender" };
                 if (!validSortColumns.Contains(sortBy))
                 {
-                    sortBy = "UserID"; // Default to UserID if invalid column is provided
+                    sortBy = "UserID";
                 }
 
-
-
-                // Dynamically construct the SQL query with ORDER BY and LIMIT clauses
-                string query = $@"
+                // Build the base SQL query
+                string query = @"
                     SELECT * 
                     FROM crudoperation.crudapplication
                     WHERE IsActive = 1
-                    ORDER BY {sortBy} {sortDirection}
-                    LIMIT @PageSize OFFSET @Offset;
                 ";
+
+                // Dynamically add filters
+                if (!string.IsNullOrEmpty(request.UserName))
+                {
+                    query += " AND UserName LIKE @UserName ";
+                }
+
+                if (!string.IsNullOrEmpty(request.EmailId))
+                {
+                    query += " AND EmailId LIKE @EmailId ";
+                }
+
+                if (request.Salary > 0)
+                {
+                    query += " AND Salary = @Salary ";
+                }
+
+                if (!string.IsNullOrEmpty(request.Gender))
+                {
+                    query += " AND Gender = @Gender ";
+                }
+
+                // Apply sorting and paging
+                query += $" ORDER BY {sortBy} {sortDirection} LIMIT @PageSize OFFSET @Offset;";
 
                 using (MySqlCommand sqlCommand = new MySqlCommand(query, _mySqlConnection))
                 {
                     sqlCommand.CommandType = System.Data.CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
+
+                    // Add paging parameters
                     sqlCommand.Parameters.AddWithValue("@PageSize", pageSize);
                     sqlCommand.Parameters.AddWithValue("@Offset", offset);
+
+                    // Add filtering parameters
+                    if (!string.IsNullOrEmpty(request.UserName))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@UserName", $"%{request.UserName}%");
+                    }
+
+                    if (!string.IsNullOrEmpty(request.EmailId))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@EmailId", $"%{request.EmailId}%");
+                    }
+
+                    if (request.Salary > 0)
+                    {
+                        sqlCommand.Parameters.AddWithValue("@Salary", request.Salary);
+                    }
+
+                    if (!string.IsNullOrEmpty(request.Gender))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@Gender", request.Gender);
+                    }
 
                     if (_mySqlConnection.State != System.Data.ConnectionState.Open)
                     {
@@ -139,7 +181,7 @@ namespace webApiCrudApplication.RepositoryLayer
                             {
                                 GetReadAllInformationRequest getdata = new GetReadAllInformationRequest
                                 {
-                                    UserID = reader.IsDBNull(reader.GetOrdinal("UserId")) ? default : reader.GetInt32(reader.GetOrdinal("UserId")),
+                                    UserID = reader.IsDBNull(reader.GetOrdinal("UserID")) ? default : reader.GetInt32(reader.GetOrdinal("UserID")),
                                     UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "DefaultUserName" : reader.GetString(reader.GetOrdinal("UserName")),
                                     EmailId = reader.IsDBNull(reader.GetOrdinal("EmailId")) ? "DefaultEmailId" : reader.GetString(reader.GetOrdinal("EmailId")),
                                     MobileNumber = reader.IsDBNull(reader.GetOrdinal("MobileNumber")) ? "DefaultMobileNumber" : reader.GetString(reader.GetOrdinal("MobileNumber")),
