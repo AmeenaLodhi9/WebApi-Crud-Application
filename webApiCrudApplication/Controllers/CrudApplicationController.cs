@@ -89,68 +89,69 @@ namespace webApiCrudApplication.Controllers
 
         [HttpGet]
         public async Task<IActionResult> ReadAllInformation(
-              [FromQuery] int? PageNumber,
-            [FromQuery] int? PageSize,
-            [FromQuery] string SortBy = null,  
-            [FromQuery] string SortDirection = null,  
-            [FromQuery] string UserName = null,  // Optional
-            [FromQuery] string EmailId = null,   // Optional
-            [FromQuery] int? Salary = null,      // Optional
-            [FromQuery] string Gender = null  )   // Optional)   // New filter parameter
-            {
-            ReadAllInformationResponse? response = null;
-
+        [FromQuery] int? PageNumber,
+        [FromQuery] int? PageSize,
+        [FromQuery] string SortBy = null,
+        [FromQuery] string SortDirection = null,
+        [FromQuery] string UserName = null,  // Optional
+        [FromQuery] string EmailId = null,   // Optional
+        [FromQuery] int? Salary = null,      // Optional
+        [FromQuery] string Gender = null)   // Optional)   // New filter parameter
+        {
             try
             {
                 // Ensure PageNumber and PageSize have default values if not provided
-                if (PageNumber == null || PageNumber <= 0)
-                {
-                    PageNumber = 1; // Default page number
-                }
+                PageNumber ??= 1; // Default page number
+                PageSize ??= 10;  // Default page size
 
-                if (PageSize == null || PageSize <= 0)
+                // Create the request object based on input
+                var request = new ReadAllInformationRequest
                 {
-                    PageSize = 10; // Default page size
-                }
-
-                // Create request object to pass to the service layer
-                var request = new GetReadAllInformationRequest
-                {
-                    PageNumber = PageNumber.Value,
-                    PageSize = PageSize.Value,
-                    SortBy = SortBy, // Pass SortBy to the request
-                    SortDirection = SortDirection, // Pass SortDirection to the request
-                    UserName = UserName, // Filter by UserName
-                    EmailId = EmailId,   // Filter by EmailId
-                    Salary = Salary ?? 0, // Filter by Salary (0 means no filter)
-                    Gender = Gender // Filter by Gender
+                    UserName = UserName,
+                    EmailId = EmailId,
+                    Salary = Salary,
+                    Gender = Gender,
+                    IsActive = true // Assuming only active users are retrieved
                 };
 
                 // Call service layer to get the data
-                response = await _cRudApplicationSL.ReadAllInformation(request);
+                ReadAllInformationResponse response = await _cRudApplicationSL.ReadAllInformation(request, PageNumber.Value, PageSize.Value, SortBy, SortDirection);
 
+                // Check if no records are found
+                if (response.readAllInformation == null || !response.readAllInformation.Any())
+                {
+                    // Return 404 if no records found
+                    return NotFound(new { IsSuccess = false, Message = "No records found." });
+                }
+
+                // Check for unsuccessful response
                 if (!response.IsSuccess)
                 {
                     return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
                 }
 
-                // Return success response with data
-                return Ok(new { IsSuccess = response.IsSuccess, Data = response.readAllInformation });
+                // Return success response with data, including pagination info
+                return Ok(new
+                {
+                    IsSuccess = response.IsSuccess,
+                    Message = response.Message,
+                    Data = response.readAllInformation,
+                    
+                    TotalRecords = response.TotalRecords,
+                    PageIndex = response.PageIndex,
+                    PageSize = response.PageSize
+                });
             }
             catch (Exception ex)
             {
                 // Handle exception and return error response
-                response = new ReadAllInformationResponse
+                return StatusCode(500, new
                 {
                     IsSuccess = false,
                     Message = ex.Message
-                };
-
-                return StatusCode(500, new { IsSuccess = response.IsSuccess, Message = response.Message });
+                });
             }
         }
-
-
 
 
 
@@ -182,7 +183,6 @@ namespace webApiCrudApplication.Controllers
                 return StatusCode(500, new { IsSuccess = false, Message = ex.Message });
             }
         }
-
 
 
         [HttpPut]

@@ -3,7 +3,7 @@
 namespace webApiCrudApplication.CommonLayer.model
 {
 
-    public class GetReadAllInformationRequest
+    public class ReadAllInformationRequest
     {
 
         public int? UserID { get; set; }
@@ -13,25 +13,29 @@ namespace webApiCrudApplication.CommonLayer.model
         public  int? Salary { get; set; }
         public  string Gender { get; set; }
         public  bool IsActive { get; set; }
-        [JsonIgnore]
-        public int? PageNumber { get; set; }  // Optional
-        [JsonIgnore]
-        public int? PageSize { get; set; }
-        [JsonIgnore]
-        public string SortBy { get; set; } // Field name to sort by
-        [JsonIgnore]
-        public string SortDirection { get; set; } // 'asc' or 'desc'
+
+    // Current page index
 
     }
     public class ReadAllInformationResponse
     {
         public bool IsSuccess { get; set; }  // Corrected property name
         public required string Message { get; set; }
-        public List<GetReadAllInformationRequest> readAllInformation { get; set; }
+    
+        public int? PageNumber { get; set; }  // Optional
+        public int? PageSize { get; set; }
+        public string SortBy { get; set; } // Field name to sort by
+        public string SortDirection { get; set; } // 'asc' or 'desc'
+        public int TotalRecords { get; set; }  // Total number of records
+        public int PageIndex { get; set; }
+        public List<ReadAllInformationRequest> readAllInformation { get; set; }  // List of filtered records
+
+        // Constructor to initialize the list
         public ReadAllInformationResponse()
         {
-            readAllInformation = new List<GetReadAllInformationRequest>();
+            readAllInformation = new List<ReadAllInformationRequest>();
         }
+
 
     }
 }

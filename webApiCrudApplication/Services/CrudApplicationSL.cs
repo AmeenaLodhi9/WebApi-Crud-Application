@@ -57,23 +57,28 @@ namespace webApiCrudApplication.Services
             return await _crudApplicationRL.AddInformation(request);
         }
 
-        public async Task<ReadAllInformationResponse> ReadAllInformation(GetReadAllInformationRequest request)
+        /*public async Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request)
         {
+            ReadAllInformationResponse response = new ReadAllInformationResponse
+            {
+                PageIndex = response.PageNumber,
+                PageSize = response.PageSize
+            };
             try
             {
-                return await _crudApplicationRL.ReadAllInformation(request);
+                response.TotalRecords = await _crudApplicationRL.GetTotalRecords();
+                // Get the paginated and sorted data from the repository
+                response.ReadAllInformation = await _crudApplicationRL.GetPaginatedRecords(request.PageNumber, request.PageSize, request.SortBy, request.SortDirection);
+
+                response.IsSuccess = true;
+                //return await _crudApplicationRL.ReadAllInformation(request);
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed
-                var response = new ReadAllInformationResponse
-                {
-                    IsSuccess = false,
-                    Message = $"An error occurred: {ex.Message}"
-                };
-                return response;
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
-        }
+        }*/
 
         public async Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
         {
@@ -123,8 +128,40 @@ namespace webApiCrudApplication.Services
             return response;
         }
 
+        public async Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection)
+        {
+            var response = new ReadAllInformationResponse
+            {
+                Message = "Records retrieved successfully.",
+                PageIndex = pageNumber,
+                PageSize = pageSize,
+                SortBy = sortBy,
+                SortDirection = sortDirection
+            };
 
+            try
+            {
+                // Fetch total record count from the repository
+                response.TotalRecords = await _crudApplicationRL.GetTotalRecords(request);
 
+                // Fetch paginated and sorted records
+                var records = await _crudApplicationRL.GetPaginatedRecords(request, pageNumber, pageSize, sortBy, sortDirection);
 
+                // Assign the records to the readAllInformation list in the response object
+                response.readAllInformation = records;
+
+                response.IsSuccess = true;
+                response.Message = "Records retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
     }
 }
+
+

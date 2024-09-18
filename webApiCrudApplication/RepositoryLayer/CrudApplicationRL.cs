@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using webApiCrudApplication.Common_Util;
 using webApiCrudApplication.CommonLayer.model;
 
@@ -80,141 +81,145 @@ namespace webApiCrudApplication.RepositoryLayer
             return response;
         }
 
-
-
-        public async Task<ReadAllInformationResponse> ReadAllInformation(GetReadAllInformationRequest request)
+        public async Task<int> GetTotalRecords(ReadAllInformationRequest request)
         {
-            ReadAllInformationResponse response = new ReadAllInformationResponse
+
+            if (_mySqlConnection.State != System.Data.ConnectionState.Open)
             {
-                Message = "", // Set a default value to avoid the error
-                IsSuccess = true
-            };
+                await _mySqlConnection.OpenAsync();
+            }
 
-            try
+            string query = "SELECT COUNT(*) FROM crudoperation.crudapplication WHERE IsActive = 1";
+
+            if (!string.IsNullOrEmpty(request.UserName))
             {
-                int pageSize = request.PageSize ?? 10;
-                int pageNumber = request.PageNumber ?? 1;
-                int offset = (pageNumber - 1) * pageSize;
+                query += " AND UserName LIKE @UserName";
+            }
 
-                string sortBy = string.IsNullOrEmpty(request.SortBy) ? "UserID" : request.SortBy;
-                string sortDirection = request.SortDirection?.ToLower() == "desc" ? "DESC" : "ASC";
+            if (!string.IsNullOrEmpty(request.EmailId))
+            {
+                query += " AND EmailId LIKE @EmailId";
+            }
 
-                // Validate sort column to prevent SQL injection
-                var validSortColumns = new List<string> { "UserID", "UserName", "EmailId", "Salary", "Gender" };
-                if (!validSortColumns.Contains(sortBy))
-                {
-                    sortBy = "UserID";
-                }
+            if (request.Salary.HasValue)
+            {
+                query += " AND Salary = @Salary";
+            }
+            if (!string.IsNullOrEmpty(request.Gender))
+            {
+                query += " AND Gender LIKE @Gender ";
+            }
 
-                // Build the base SQL query
-                string query = @"
-                    SELECT * 
-                    FROM crudoperation.crudapplication
-                    WHERE IsActive = 1
-                ";
-
-                // Dynamically add filters
+            using (var command = new MySqlCommand(query, _mySqlConnection))
+            {
                 if (!string.IsNullOrEmpty(request.UserName))
                 {
-                    query += " AND UserName LIKE @UserName ";
+                    command.Parameters.AddWithValue("@UserName", $"%{request.UserName}%");
                 }
 
                 if (!string.IsNullOrEmpty(request.EmailId))
                 {
-                    query += " AND EmailId LIKE @EmailId ";
+                    command.Parameters.AddWithValue("@EmailId", $"%{request.EmailId}%");
                 }
 
-                if (request.Salary > 0)
+                if (request.Salary.HasValue)
                 {
-                    query += " AND Salary = @Salary ";
+                    command.Parameters.AddWithValue("@Salary", request.Salary.Value);
                 }
-
                 if (!string.IsNullOrEmpty(request.Gender))
                 {
-                    query += " AND Gender = @Gender ";
+                    command.Parameters.AddWithValue("@Gender", $"%{request.Gender}%");
                 }
 
-                // Apply sorting and paging
-                query += $" ORDER BY {sortBy} {sortDirection} LIMIT @PageSize OFFSET @Offset;";
-
-                using (MySqlCommand sqlCommand = new MySqlCommand(query, _mySqlConnection))
-                {
-                    sqlCommand.CommandType = System.Data.CommandType.Text;
-                    sqlCommand.CommandTimeout = 180;
-
-                    // Add paging parameters
-                    sqlCommand.Parameters.AddWithValue("@PageSize", pageSize);
-                    sqlCommand.Parameters.AddWithValue("@Offset", offset);
-
-                    // Add filtering parameters
-                    if (!string.IsNullOrEmpty(request.UserName))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@UserName", $"%{request.UserName}%");
-                    }
-
-                    if (!string.IsNullOrEmpty(request.EmailId))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@EmailId", $"%{request.EmailId}%");
-                    }
-
-                    if (request.Salary > 0)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Salary", request.Salary);
-                    }
-
-                    if (!string.IsNullOrEmpty(request.Gender))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Gender", request.Gender);
-                    }
-
-                    if (_mySqlConnection.State != System.Data.ConnectionState.Open)
-                    {
-                        await _mySqlConnection.OpenAsync();
-                    }
-
-                    using (MySqlDataReader reader = await sqlCommand.ExecuteReaderAsync())
-                    {
-                        if (reader.HasRows)
-                        {
-                            response.readAllInformation = new List<GetReadAllInformationRequest>();
-                            while (await reader.ReadAsync())
-                            {
-                                GetReadAllInformationRequest getdata = new GetReadAllInformationRequest
-                                {
-                                    UserID = reader.IsDBNull(reader.GetOrdinal("UserID")) ? default : reader.GetInt32(reader.GetOrdinal("UserID")),
-                                    UserName = reader.IsDBNull(reader.GetOrdinal("UserName")) ? "DefaultUserName" : reader.GetString(reader.GetOrdinal("UserName")),
-                                    EmailId = reader.IsDBNull(reader.GetOrdinal("EmailId")) ? "DefaultEmailId" : reader.GetString(reader.GetOrdinal("EmailId")),
-                                    MobileNumber = reader.IsDBNull(reader.GetOrdinal("MobileNumber")) ? "DefaultMobileNumber" : reader.GetString(reader.GetOrdinal("MobileNumber")),
-                                    Gender = reader.IsDBNull(reader.GetOrdinal("Gender")) ? "DefaultGender" : reader.GetString(reader.GetOrdinal("Gender")),
-                                    Salary = reader.IsDBNull(reader.GetOrdinal("Salary")) ? 0 : reader.GetInt32(reader.GetOrdinal("Salary")),
-                                    IsActive = reader.IsDBNull(reader.GetOrdinal("IsActive")) ? default : reader.GetBoolean(reader.GetOrdinal("IsActive"))
-                                };
-
-                                response.readAllInformation.Add(getdata);
-                            }
-                        }
-                        else
-                        {
-                            response.IsSuccess = false;
-                            response.Message = "Record Not Found";
-                        }
-                    }
-                }
+                return Convert.ToInt32(await command.ExecuteScalarAsync());
             }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-            }
-            finally
-            {
-                await _mySqlConnection.CloseAsync();
-                await _mySqlConnection.DisposeAsync();
-            }
-
-            return response; // Ensure that a value is returned from all paths
         }
 
+        public async Task<List<ReadAllInformationRequest>> GetPaginatedRecords(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection)
+        {
+            if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+            {
+                await _mySqlConnection.OpenAsync();
+            }
+
+            // Validate and sanitize sorting inputs
+            var allowedSortBy = new List<string> { "UserId", "UserName", "EmailId", "Salary" }; // Add more allowed columns
+            var allowedSortDirection = new List<string> { "ASC", "DESC" };
+
+            sortBy = allowedSortBy.Contains(sortBy) ? sortBy : "UserId"; // Default to UserId
+            sortDirection = allowedSortDirection.Contains(sortDirection?.ToUpper()) ? sortDirection.ToUpper() : "ASC"; // Default to ASC
+
+            string query = "SELECT * FROM crudoperation.crudapplication WHERE IsActive = 1";
+
+            if (!string.IsNullOrEmpty(request.UserName))
+            {
+                query += " AND UserName LIKE @UserName";
+            }
+
+            if (!string.IsNullOrEmpty(request.EmailId))
+            {
+                query += " AND EmailId LIKE @EmailId";
+            }
+
+            if (request.Salary.HasValue)
+            {
+                query += " AND Salary = @Salary";
+            }
+            if (!string.IsNullOrEmpty(request.Gender))
+            {
+                query += " AND Gender LIKE @Gender";
+            }
+
+
+            query += $" ORDER BY {sortBy} {sortDirection}";
+
+            int offset = (pageNumber - 1) * pageSize;
+            query += " LIMIT @PageSize OFFSET @Offset";
+
+            using (var command = new MySqlCommand(query, _mySqlConnection))
+            {
+                if (!string.IsNullOrEmpty(request.UserName))
+                {
+                    command.Parameters.AddWithValue("@UserName", $"%{request.UserName}%");
+                }
+
+                if (!string.IsNullOrEmpty(request.EmailId))
+                {
+                    command.Parameters.AddWithValue("@EmailId", $"%{request.EmailId}%");
+                }
+
+                if (request.Salary.HasValue)
+                {
+                    command.Parameters.AddWithValue("@Salary", request.Salary.Value);
+                }
+                if (!string.IsNullOrEmpty(request.Gender))
+                {
+                    command.Parameters.AddWithValue("@Gender", $"%{request.Gender}%");
+                }
+
+                command.Parameters.AddWithValue("@PageSize", pageSize);
+                command.Parameters.AddWithValue("@Offset", offset);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    var result = new List<ReadAllInformationRequest>();
+                    while (await reader.ReadAsync())
+                    {
+                        result.Add(new ReadAllInformationRequest
+                        {
+                            UserID = reader.GetInt32("UserId"),
+                            UserName = reader.GetString("UserName"),
+                            EmailId = reader.GetString("EmailId"),
+                            MobileNumber = reader.GetString("MobileNumber"),
+                            Salary = reader.GetInt32("Salary"),
+                            Gender = reader.GetString("Gender"),
+                            IsActive = reader.GetBoolean("IsActive")
+                        });
+                    }
+                    return result;
+                }
+            }
+        }
 
         public async Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
 
@@ -315,10 +320,6 @@ namespace webApiCrudApplication.RepositoryLayer
             return response;
         }
 
-
-
-
-
         public async Task<GetInformationByIdResponse> GetInformationById(int id)
         {
             // Initialize the response object with default values
@@ -381,5 +382,12 @@ namespace webApiCrudApplication.RepositoryLayer
 
             return response;
         }
+
+        
+
+ /*       public Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request)
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }
