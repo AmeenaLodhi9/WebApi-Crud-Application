@@ -54,6 +54,22 @@ namespace webApiCrudApplication.Common_Util
                 return _configuration["GetInformationById"] ?? "Default SQL Query";
             }
         }
+        public static string GetByUserNameAsync
+        {
+            get
+            {
+                // Return the value of AddInformation or a default query if the key is missing
+                return _configuration["GetByUserNameAsync"] ?? "Default SQL Query";
+            }
+        }
+        public static string GetByIdAsync
+        {
+            get
+            {
+                // Return the value of AddInformation or a default query if the key is missing
+                return _configuration["GetByIdAsync"] ?? "Default SQL Query";
+            }
+        }
 
     }
 }

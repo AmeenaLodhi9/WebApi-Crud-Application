@@ -7,6 +7,7 @@ using webApiCrudApplication.Common_Util;
 using webApiCrudApplication.CommonLayer.model;
 
 
+
 namespace webApiCrudApplication.RepositoryLayer
 {
     public class CrudApplicationRL : ICrudApplicationRL
@@ -383,11 +384,39 @@ namespace webApiCrudApplication.RepositoryLayer
             return response;
         }
 
-        
 
- /*       public Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request)
+
+        public User GetUserByUsernameAndPassword(string username, string password)
         {
-            throw new NotImplementedException();
-        }*/
+            User user = null;
+
+            using (var command = new MySqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Password",_mySqlConnection))
+            {
+                //string query = "SELECT * FROM Users WHERE Username = @Username AND Password = @Password";
+
+                
+                    _mySqlConnection.Open();
+
+                    command.Parameters.AddWithValue("@Username", username);
+                    command.Parameters.AddWithValue("@Password", password);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            user = new User
+                            {
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Username = reader["Username"].ToString(),
+                                Password = reader["Password"].ToString(),
+                                Role = reader["Role"].ToString()
+                            };
+                        }
+                    }
+                
+            }
+
+            return user;
+        }
     }
 }

@@ -49,6 +49,22 @@
   },
   {
     "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "Login",
+    "RelativePath": "api/CrudApplication/Login/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "webApiCrudApplication.CommonLayer.model.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
     "Method": "ReadAllInformation",
     "RelativePath": "api/CrudApplication/ReadAllInformation",
     "HttpMethod": "GET",

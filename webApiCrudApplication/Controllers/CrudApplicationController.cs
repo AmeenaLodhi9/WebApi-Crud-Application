@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.Services;
+using System.Text;
+using System.Security.Claims;
 
 namespace webApiCrudApplication.Controllers
 {
@@ -16,6 +19,30 @@ namespace webApiCrudApplication.Controllers
         {
             _cRudApplicationSL = cRudApplicationSL;
         }
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] CommonLayer.model.LoginRequest request)
+        {
+            var response = _cRudApplicationSL.Authenticate(request);
+
+            if (response == null)
+            {
+                return Unauthorized(new
+                {
+                    IsSuccess = false,
+                    Message = "Invalid username or password",
+                    Token = (string)null
+                });
+            }
+
+            return Ok(new
+            {
+                IsSuccess = response.IsSuccess,
+                Message = response.Message,
+                Token = response.Token
+            });
+        }
+
+
 
         [HttpPost]
         public async Task<IActionResult> AddInformation([FromBody] AddInformationRequest request)

@@ -1,4 +1,10 @@
-﻿using webApiCrudApplication.CommonLayer.model;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.RepositoryLayer;
 
 namespace webApiCrudApplication.Services
@@ -6,10 +12,12 @@ namespace webApiCrudApplication.Services
     public class CrudApplicationSL : ICrudApplicationSL
     {
         private readonly ICrudApplicationRL _crudApplicationRL;
+        private readonly IConfiguration _configuration;
         //public readonly string EmailRegex= @"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,3})?$";
-        public CrudApplicationSL(ICrudApplicationRL crudApplicationRL)
+        public CrudApplicationSL(IConfiguration configuration,ICrudApplicationRL crudApplicationRL)
         {
             _crudApplicationRL = crudApplicationRL;
+            _configuration = configuration;
         }
 
         public async Task<AddInformationResponse> AddInformation(AddInformationRequest request)
@@ -161,6 +169,64 @@ namespace webApiCrudApplication.Services
 
             return response;
         }
+
+
+
+        public LoginResponse Authenticate(LoginRequest request)
+        {
+
+            var user = _crudApplicationRL.GetUserByUsernameAndPassword(request.Username, request.Password);
+
+            // If the user is null, authentication failed
+            if (user == null)
+            {
+                return new LoginResponse
+                {
+                    IsSuccess = false,
+                    Message = "Invalid username or password",
+                    Token = null
+                };
+            }
+
+            // If user is authenticated, generate the token and return it
+            var token = GenerateJwtToken(user);
+
+            return new LoginResponse
+            {
+                IsSuccess = true,
+                Message = "Login Successfully",
+                Token = token
+            };
+        }
+        private string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role)
+        }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature), // Ensure this line is uncommented
+                Audience = _configuration["Jwt:Audience"],
+                Issuer = _configuration["Jwt:Issuer"]
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+
+        public Task<IActionResult> Login([FromBody] Microsoft.AspNetCore.Identity.Data.LoginRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }
 

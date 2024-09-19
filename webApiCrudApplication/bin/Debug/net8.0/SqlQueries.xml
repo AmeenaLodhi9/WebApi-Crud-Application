@@ -42,4 +42,10 @@
 		FROM crudoperation.crudapplication
 		WHERE UserID = @UserId;
 	</GetInformationById>
+	<GetByUserNameAsync>
+		SELECT * FROM Users WHERE UserName = @UserName AND IsActive = 1
+	</GetByUserNameAsync>
+	<GetByIdAsync>
+		SELECT * FROM Users WHERE UserID = @UserID AND IsActive = 1
+	</GetByIdAsync>
 </Queries>
