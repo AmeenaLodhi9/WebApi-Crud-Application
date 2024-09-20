@@ -6,6 +6,7 @@ using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.Services;
 using System.Text;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace webApiCrudApplication.Controllers
 {
@@ -19,7 +20,7 @@ namespace webApiCrudApplication.Controllers
         {
             _cRudApplicationSL = cRudApplicationSL;
         }
-        [HttpPost("login")]
+        [HttpPost]
         public IActionResult Login([FromBody] CommonLayer.model.LoginRequest request)
         {
             var response = _cRudApplicationSL.Authenticate(request);
@@ -42,7 +43,34 @@ namespace webApiCrudApplication.Controllers
             });
         }
 
+        // Example of a protected route
+        [HttpGet]
+        [Authorize(Roles = "Admin")] // Only Admin role can access this
+        public IActionResult GetAdminData()
+        {
+            var Data = new[]
+            {
+                new { Id = 1, Name = "Admin User 1" },
+                new { Id = 2, Name = "Admin User 2" }
+            };
+           
 
+            return Ok(new { IsSuccess = true, Message= "You are authorized as Admin!",Data });
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User")] // Only Admin role can access this
+        public IActionResult GetUserData()
+        {
+            var Data = new[]
+            {
+                new { Id = 1, Name = "User User 1" },
+                new { Id = 2, Name = "User User 2" }
+            };
+
+
+            return Ok(new { IsSuccess = true, Message = "You are authorized as User!", Data });
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddInformation([FromBody] AddInformationRequest request)
@@ -113,7 +141,6 @@ namespace webApiCrudApplication.Controllers
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
 
-
         [HttpGet]
         public async Task<IActionResult> ReadAllInformation(
         [FromQuery] int? PageNumber,
@@ -181,7 +208,6 @@ namespace webApiCrudApplication.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<IActionResult> GetInformationById(int id)
         {
@@ -211,7 +237,6 @@ namespace webApiCrudApplication.Controllers
             }
         }
 
-
         [HttpPut]
         public async Task<IActionResult> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
         {
@@ -233,7 +258,7 @@ namespace webApiCrudApplication.Controllers
                 response.Message = ex.Message;
 
             }
-            return Ok(new { Data = response });
+            return Ok(response );
         }
 
         [HttpDelete]

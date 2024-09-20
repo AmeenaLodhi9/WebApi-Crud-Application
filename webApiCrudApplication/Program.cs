@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using webApiCrudApplication.Common_Util;
+using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.RepositoryLayer;
 using webApiCrudApplication.Services;
 
@@ -14,6 +16,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.AddControllers();
 builder.Services.AddScoped<SqlQueries>();
 
+
+
 builder.Services.AddScoped<ICrudApplicationSL, CrudApplicationSL>();
 builder.Services.AddScoped<ICrudApplicationRL, CrudApplicationRL>();
 
@@ -21,19 +25,28 @@ builder.Services.AddScoped<ICrudApplicationRL, CrudApplicationRL>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register your logger service
+var connectionString = builder.Configuration.GetConnectionString("MySqlDBString");
+builder.Services.AddSingleton(Logger.GetInstance(connectionString));
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
+        // Resolve the logger from the service provider
+    var serviceProvider = builder.Services.BuildServiceProvider();
+    var logger = serviceProvider.GetRequiredService<Logger>();
     options.InvalidModelStateResponseFactory = context =>
     {
         var errors = context.ModelState.Values
             .SelectMany(v => v.Errors)
             .Select(e => e.ErrorMessage).ToList();
-
+        // Log the validation errors
+        logger.Log($"Validation errors occurred: {string.Join(", ", errors)}", null);
         var result = new
         {
             IsSuccess = false,
             Message = "Validation errors occurred.",
             Errors = errors
+
         };
 
         return new BadRequestObjectResult(result);
@@ -61,6 +74,10 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,  // Ensures the token is not expired
         ClockSkew = TimeSpan.Zero  // Optional: Set to zero to reduce delay tolerance
     };
+});
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
 var app = builder.Build();

@@ -14,9 +14,11 @@ namespace webApiCrudApplication.RepositoryLayer
     {
         public readonly IConfiguration _configuration;
         public readonly MySqlConnection _mySqlConnection;
+        private readonly string _connectionString;
         public CrudApplicationRL(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = _configuration["ConnectionStrings:MySqlDBString"];
 
             // Retrieve the connection string
             string myConnection = _configuration["ConnectionStrings:MySqlDBString"];
@@ -30,6 +32,7 @@ namespace webApiCrudApplication.RepositoryLayer
             // Initialize MySqlConnection with the connection string
             _mySqlConnection = new MySqlConnection(myConnection);
         }
+
 
 
         public async Task<AddInformationResponse> AddInformation(AddInformationRequest request)
@@ -66,12 +69,14 @@ namespace webApiCrudApplication.RepositoryLayer
 
 
                 }
+                Logger.GetInstance(_connectionString).Log("Add Information successfully.", string.Empty);
 
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+                Logger.GetInstance(_connectionString).Log("Error AddInformation", ex.ToString());
 
             }
             finally
@@ -254,6 +259,8 @@ namespace webApiCrudApplication.RepositoryLayer
                         response.IsSuccess = false;
                         response.Message = "Query Not Executed";
                     }
+                    Logger.GetInstance(_connectionString).Log("UpdateAllInformationById", string.Empty);
+
 
 
                 }
@@ -263,6 +270,8 @@ namespace webApiCrudApplication.RepositoryLayer
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+                Logger.GetInstance(_connectionString).Log("Error UpdateAllInformationById", ex.ToString());
+
 
             }
             finally
@@ -305,12 +314,15 @@ namespace webApiCrudApplication.RepositoryLayer
 
 
                 }
+                Logger.GetInstance(_connectionString).Log("DeleteInformationById ", string.Empty);
 
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+                Logger.GetInstance(_connectionString).Log("DeleteInformationById", ex.ToString());
+
 
             }
             finally
@@ -369,11 +381,15 @@ namespace webApiCrudApplication.RepositoryLayer
                         }
                     }
                 }
+                Logger.GetInstance(_connectionString).Log("GetInformationById ", string.Empty);
+
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+                Logger.GetInstance(_connectionString).Log("GetInformationById ", ex.ToString());
+
             }
             finally
             {
@@ -418,5 +434,24 @@ namespace webApiCrudApplication.RepositoryLayer
 
             return user;
         }
+
+        public string GetUserRole(string username)
+        {
+            string role = null;
+            string query = "SELECT Role FROM Users WHERE Username = @Username";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, _mySqlConnection))
+            {
+                cmd.Parameters.AddWithValue("@Username", username);
+                _mySqlConnection.Open();
+
+                role = cmd.ExecuteScalar()?.ToString();
+
+                _mySqlConnection.Close();
+            }
+            return role;
+        }
+
+        
     }
 }

@@ -7,6 +7,7 @@ namespace webApiCrudApplication.RepositoryLayer
         /*        Task<User> GetByUserNameAsync(string userName);
                 Task<User> GetByIdAsync(int userId);*/
         User GetUserByUsernameAndPassword(string username, string password);
+        string GetUserRole(string username);
         Task<AddInformationResponse> AddInformation(AddInformationRequest request);
         Task<int> GetTotalRecords(ReadAllInformationRequest request);
         Task<List<ReadAllInformationRequest>> GetPaginatedRecords(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection);

@@ -13,19 +13,21 @@ namespace webApiCrudApplication.Services
     {
         private readonly ICrudApplicationRL _crudApplicationRL;
         private readonly IConfiguration _configuration;
-        //public readonly string EmailRegex= @"^[0-9a-zA-Z]+([._+-][0-9a-zA-Z]+)*@[0-9a-zA-Z]+.[a-zA-Z]{2,4}([.][a-zA-Z]{2,3})?$";
+        private readonly string _connectionString;
+
         public CrudApplicationSL(IConfiguration configuration,ICrudApplicationRL crudApplicationRL)
         {
             _crudApplicationRL = crudApplicationRL;
             _configuration = configuration;
+            _connectionString = _configuration["ConnectionStrings:MySqlDBString"];
+
         }
 
         public async Task<AddInformationResponse> AddInformation(AddInformationRequest request)
         {
-            // Initialize the Message property in the object initializer
             AddInformationResponse response = new AddInformationResponse
             {
-                Message = "", // Set a default or empty message
+                Message = "",
                 IsSuccess = true
             };
 
@@ -65,29 +67,6 @@ namespace webApiCrudApplication.Services
             return await _crudApplicationRL.AddInformation(request);
         }
 
-        /*public async Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request)
-        {
-            ReadAllInformationResponse response = new ReadAllInformationResponse
-            {
-                PageIndex = response.PageNumber,
-                PageSize = response.PageSize
-            };
-            try
-            {
-                response.TotalRecords = await _crudApplicationRL.GetTotalRecords();
-                // Get the paginated and sorted data from the repository
-                response.ReadAllInformation = await _crudApplicationRL.GetPaginatedRecords(request.PageNumber, request.PageSize, request.SortBy, request.SortDirection);
-
-                response.IsSuccess = true;
-                //return await _crudApplicationRL.ReadAllInformation(request);
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-            }
-        }*/
-
         public async Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
         {
             UpdateAllInformationByIdResponse response = new UpdateAllInformationByIdResponse
@@ -111,19 +90,14 @@ namespace webApiCrudApplication.Services
             return response;
         }
 
-
-        // Implement the methods from ICrudApplicationSL interface here
         public async Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request)
         {
-            // Initialize the Message property in the object initializer
             AddInformationResponse response = new AddInformationResponse
             {
                 Message = "", // Set a default or empty message
                 IsSuccess = true
             };
 
-
-            // Continue with adding information using the repository layer
             return await _crudApplicationRL.DeleteInformationById(request);
         }
 
@@ -165,6 +139,7 @@ namespace webApiCrudApplication.Services
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
+
             }
 
             return response;
@@ -198,6 +173,11 @@ namespace webApiCrudApplication.Services
                 Token = token
             };
         }
+        public bool IsUserInRole(string username, string role)
+        {
+            var userRole = _crudApplicationRL.GetUserRole(username);
+            return userRole != null && userRole.Equals(role, StringComparison.OrdinalIgnoreCase);
+        }
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -207,9 +187,9 @@ namespace webApiCrudApplication.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role)
-        }),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role)
+                }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature), // Ensure this line is uncommented
                 Audience = _configuration["Jwt:Audience"],
@@ -217,13 +197,10 @@ namespace webApiCrudApplication.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            Logger.GetInstance(_connectionString).Log("Token Generated Successfully ", string.Empty);
+
             return tokenHandler.WriteToken(token);
-        }
 
-
-        public Task<IActionResult> Login([FromBody] Microsoft.AspNetCore.Identity.Data.LoginRequest request)
-        {
-            throw new NotImplementedException();
         }
 
 

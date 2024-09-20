@@ -33,6 +33,16 @@
   },
   {
     "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "GetAdminData",
+    "RelativePath": "api/CrudApplication/GetAdminData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
     "Method": "GetInformationById",
     "RelativePath": "api/CrudApplication/GetInformationById",
     "HttpMethod": "GET",
@@ -49,8 +59,18 @@
   },
   {
     "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
+    "Method": "GetUserData",
+    "RelativePath": "api/CrudApplication/GetUserData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webApiCrudApplication.Controllers.CrudApplicationController",
     "Method": "Login",
-    "RelativePath": "api/CrudApplication/Login/login",
+    "RelativePath": "api/CrudApplication/Login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
