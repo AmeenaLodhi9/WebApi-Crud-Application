@@ -14,18 +14,20 @@ namespace webApiCrudApplication.Controllers
     [ApiController]
     public class CrudApplicationController : ControllerBase
     {
-        public readonly ICrudApplicationSL _cRudApplicationSL;
+        public readonly IUserSL _userSL;
+        public readonly IInformationSL _informationSL;
         private readonly Logger _logger;
          
-        public CrudApplicationController(ICrudApplicationSL cRudApplicationSL, Logger logger)
+        public CrudApplicationController(IUserSL userSL, IInformationSL informationSL,Logger logger)
         {
-            _cRudApplicationSL = cRudApplicationSL;
+            _userSL = userSL;
+            _informationSL = informationSL;            
             _logger = logger;
         }
         [HttpPost]
         public IActionResult Login([FromBody] CommonLayer.model.LoginRequest request)
         {
-            var response = _cRudApplicationSL.Authenticate(request);
+            var response = _userSL.Authenticate(request);
             _logger.Log("Login Successfully", null);
 
 
@@ -135,7 +137,7 @@ namespace webApiCrudApplication.Controllers
             try
             {
                 // Call the service layer to add the information
-                response = await _cRudApplicationSL.AddInformation(request);
+                response = await _informationSL.AddInformation(request);
                 _logger.Log("Add Information Successfully", null);
 
                 if (!response.IsSuccess)
@@ -180,7 +182,7 @@ namespace webApiCrudApplication.Controllers
                 };
 
                 // Call service layer to get the data
-                ReadAllInformationResponse response = await _cRudApplicationSL.ReadAllInformation(request, PageNumber.Value, PageSize.Value, SortBy, SortDirection);
+                ReadAllInformationResponse response = await _informationSL.ReadAllInformation(request, PageNumber.Value, PageSize.Value, SortBy, SortDirection);
 
                 // Check if no records are found
                 if (response.readAllInformation == null || !response.readAllInformation.Any())
@@ -235,7 +237,7 @@ namespace webApiCrudApplication.Controllers
             try
             {
                 // Call service layer to get the information
-                response = await _cRudApplicationSL.GetInformationById(id);
+                response = await _informationSL.GetInformationById(id);
 
                 if (response.IsSuccess)
                 {
@@ -269,7 +271,7 @@ namespace webApiCrudApplication.Controllers
 
             try
             {
-                response = await _cRudApplicationSL.UpdateAllInformationById(request);
+                response = await _informationSL.UpdateAllInformationById(request);
                 _logger.Log("UpdateAllInformationById Successfully!", null);
 
 
@@ -297,7 +299,7 @@ namespace webApiCrudApplication.Controllers
 
             try
             {
-                response = await _cRudApplicationSL.DeleteInformationById(request); 
+                response = await _informationSL.DeleteInformationById(request); 
                 _logger.Log("DeleteInformationById Successfully", null);
 
 

@@ -11,17 +11,15 @@ using webApiCrudApplication.CommonLayer.model;
 
 namespace webApiCrudApplication.RepositoryLayer
 {
-    public class CrudApplicationRL : ICrudApplicationRL
+    public class CrudApplicationRL : IInformationRL, IUserRL
     {
         public readonly IConfiguration _configuration;
         public readonly MySqlConnection _mySqlConnection;
-        private readonly Logger _logger;
+     
 
-        public CrudApplicationRL(IConfiguration configuration, Logger logger)
+        public CrudApplicationRL(IConfiguration configuration)
         {
             _configuration = configuration;
-
-            _logger = logger;
 
             // Retrieve the connection string from the configuration
             string myConnection = _configuration.GetConnectionString("MySqlDBString");
@@ -42,8 +40,7 @@ namespace webApiCrudApplication.RepositoryLayer
         {
             AddInformationResponse response = new AddInformationResponse
             {
-                /*                response.IsSuccess = true,
-                                response.Message = "Success"*/
+
                 Message = "Success", // Set a default or empty message
                 IsSuccess = true
             };
@@ -69,7 +66,6 @@ namespace webApiCrudApplication.RepositoryLayer
                         response.IsSuccess = false;
                         response.Message = "Query Not Executed";
                     }
-                   // _logger.Log("Add Information Successfully", null);
 
                 }
                
@@ -79,8 +75,6 @@ namespace webApiCrudApplication.RepositoryLayer
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-               
-                //_logger.Log(ex.Message,ex.StackTrace);
 
             }
             finally
@@ -263,9 +257,6 @@ namespace webApiCrudApplication.RepositoryLayer
                         response.IsSuccess = false;
                         response.Message = "Query Not Executed";
                     }
-                    
-
-
 
                 }
 
@@ -292,8 +283,7 @@ namespace webApiCrudApplication.RepositoryLayer
         {
             DeleteInformationByIdResponse response = new DeleteInformationByIdResponse
             {
-                /*                response.IsSuccess = true,
-                                response.Message = "Success"*/
+ 
                 Message = "Success", // Set a default or empty message
                 IsSuccess = true
             };
@@ -325,8 +315,6 @@ namespace webApiCrudApplication.RepositoryLayer
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-              
-
 
             }
             finally
@@ -412,9 +400,7 @@ namespace webApiCrudApplication.RepositoryLayer
 
             using (var command = new MySqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Password",_mySqlConnection))
             {
-                //string query = "SELECT * FROM Users WHERE Username = @Username AND Password = @Password";
 
-                
                     _mySqlConnection.Open();
 
                     command.Parameters.AddWithValue("@Username", username);
@@ -433,7 +419,6 @@ namespace webApiCrudApplication.RepositoryLayer
                             };
                         }
                     }
-                
             }
 
             return user;

@@ -9,17 +9,22 @@ using webApiCrudApplication.RepositoryLayer;
 
 namespace webApiCrudApplication.Services
 {
-    public class CrudApplicationSL : ICrudApplicationSL
+    public class CrudApplicationSL : IUserSL,IInformationSL
     {
-        private readonly ICrudApplicationRL _crudApplicationRL;
+        private readonly IUserRL _userRL;
+        private readonly IInformationRL _infoRL;
         private readonly IConfiguration _configuration;
         
 
-        public CrudApplicationSL(IConfiguration configuration,ICrudApplicationRL crudApplicationRL)
+        public CrudApplicationSL(IConfiguration configuration, IUserRL userRL, IInformationRL infoRL)
         {
-            _crudApplicationRL = crudApplicationRL;
-            _configuration = configuration;
             
+            _configuration = configuration;
+            _infoRL = infoRL;
+            _userRL = userRL;
+
+
+
 
         }
 
@@ -64,7 +69,7 @@ namespace webApiCrudApplication.Services
             }*/
 
             // Continue with adding information using the repository layer
-            return await _crudApplicationRL.AddInformation(request);
+            return await _infoRL.AddInformation(request);
         }
 
         public async Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request)
@@ -78,7 +83,7 @@ namespace webApiCrudApplication.Services
             try
             {
                 // Call the method on the repository layer
-                response = await _crudApplicationRL.UpdateAllInformationById(request);
+                response = await _infoRL.UpdateAllInformationById(request);
             }
             catch (Exception ex)
             {
@@ -98,13 +103,13 @@ namespace webApiCrudApplication.Services
                 IsSuccess = true
             };
 
-            return await _crudApplicationRL.DeleteInformationById(request);
+            return await _infoRL.DeleteInformationById(request);
         }
 
         public async Task<GetInformationByIdResponse> GetInformationById(int id)
         {
             // Call the repository layer to get data
-            var response = await _crudApplicationRL.GetInformationById(id);
+            var response = await _infoRL.GetInformationById(id);
 
             // Return the response directly as it's already formatted in the repository layer
             return response;
@@ -124,10 +129,10 @@ namespace webApiCrudApplication.Services
             try
             {
                 // Fetch total record count from the repository
-                response.TotalRecords = await _crudApplicationRL.GetTotalRecords(request);
+                response.TotalRecords = await _infoRL.GetTotalRecords(request);
 
                 // Fetch paginated and sorted records
-                var records = await _crudApplicationRL.GetPaginatedRecords(request, pageNumber, pageSize, sortBy, sortDirection);
+                var records = await _infoRL.GetPaginatedRecords(request, pageNumber, pageSize, sortBy, sortDirection);
 
                 // Assign the records to the readAllInformation list in the response object
                 response.readAllInformation = records;
@@ -150,7 +155,7 @@ namespace webApiCrudApplication.Services
         public LoginResponse Authenticate(LoginRequest request)
         {
 
-            var user = _crudApplicationRL.GetUserByUsernameAndPassword(request.Username, request.Password);
+            var user =  _userRL.GetUserByUsernameAndPassword(request.Username, request.Password);
 
             // If the user is null, authentication failed
             if (user == null)
@@ -175,7 +180,7 @@ namespace webApiCrudApplication.Services
         }
         public bool IsUserInRole(string username, string role)
         {
-            var userRole = _crudApplicationRL.GetUserRole(username);
+            var userRole = _userRL.GetUserRole(username);
             return userRole != null && userRole.Equals(role, StringComparison.OrdinalIgnoreCase);
         }
         private string GenerateJwtToken(User user)

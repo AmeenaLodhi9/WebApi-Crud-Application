@@ -2,31 +2,27 @@
 
 namespace webApiCrudApplication.RepositoryLayer
 {
-    public interface ICrudApplicationRL
-    {
-        /*        Task<User> GetByUserNameAsync(string userName);
-                Task<User> GetByIdAsync(int userId);*/
-        User GetUserByUsernameAndPassword(string username, string password);
-        string GetUserRole(string username);
-        Task<AddInformationResponse> AddInformation(AddInformationRequest request);
-        Task<int> GetTotalRecords(ReadAllInformationRequest request);
-        Task<List<ReadAllInformationRequest>> GetPaginatedRecords(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection);
 
-        //Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection);
-        Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request);
-        Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request);
-        Task<GetInformationByIdResponse> GetInformationById(int id);
+        public interface IUserRL
+        {
+            User GetUserByUsernameAndPassword(string username, string password);
+            string GetUserRole(string username);
 
-        public interface ICrudApplicationRL
+        }
+        public interface IInformationRL
         {
             public Task<AddInformationResponse> AddInformation(AddInformationRequest request);
-            public  Task<int> GetTotalRecords(ReadAllInformationRequest request);
+            public Task<int> GetTotalRecords(ReadAllInformationRequest request);
             public Task<List<ReadAllInformationRequest>> GetPaginatedRecords(ReadAllInformationRequest request, int pageNumber, int pageSize, string sortBy, string sortDirection);
 
-           // public Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request);
+            // public Task<ReadAllInformationResponse> ReadAllInformation(ReadAllInformationRequest request);
             public Task<UpdateAllInformationByIdResponse> UpdateAllInformationById(UpdateAllInformationByIdRequest request);
             public Task<DeleteInformationByIdResponse> DeleteInformationById(DeleteInformationByIdRequest request);
             public Task<GetInformationByIdResponse> GetInformationById(int id);
+
         }
-    }
+
+
+
+    
 }

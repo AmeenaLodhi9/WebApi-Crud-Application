@@ -18,8 +18,14 @@ builder.Services.AddScoped<SqlQueries>();
 
 
 
-builder.Services.AddScoped<ICrudApplicationSL, CrudApplicationSL>();
-builder.Services.AddScoped<ICrudApplicationRL, CrudApplicationRL>();
+builder.Services.AddScoped<IInformationSL, CrudApplicationSL>();
+builder.Services.AddScoped<IUserSL, CrudApplicationSL>();
+
+builder.Services.AddScoped<IInformationRL, CrudApplicationRL>();
+builder.Services.AddScoped<IUserRL, CrudApplicationRL>();
+
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
