@@ -13,13 +13,13 @@ namespace webApiCrudApplication.Services
     {
         private readonly ICrudApplicationRL _crudApplicationRL;
         private readonly IConfiguration _configuration;
-        private readonly string _connectionString;
+        
 
         public CrudApplicationSL(IConfiguration configuration,ICrudApplicationRL crudApplicationRL)
         {
             _crudApplicationRL = crudApplicationRL;
             _configuration = configuration;
-            _connectionString = _configuration["ConnectionStrings:MySqlDBString"];
+            
 
         }
 
@@ -197,7 +197,7 @@ namespace webApiCrudApplication.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            Logger.GetInstance(_connectionString).Log("Token Generated Successfully ", string.Empty);
+          
 
             return tokenHandler.WriteToken(token);
 

@@ -1,40 +1,27 @@
-﻿using Microsoft.Extensions.Logging;
-using MySqlConnector;
+﻿using MySqlConnector;
+using System;
 
 namespace webApiCrudApplication.CommonLayer.model
 {
     public class Logger
     {
-        private static Logger _instance;
-        private static readonly object _lock = new object();
         private readonly string _connectionString;
 
-        private Logger(string connectionString)
+        // Constructor accepts the connection string, injected by the DI container
+        public Logger(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public static Logger GetInstance(string connectionString)
-        {
-            if (_instance == null)
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new Logger(connectionString);
-                    }
-                }
-            }
-            return _instance;
-        }
-
+        // Log method that inserts logs into the database
         public void Log(string message, string stackTrace)
         {
+            Console.WriteLine($"Log: {message}, StackTrace: {stackTrace}");
             if (message.Length > 255)
             {
                 message = message.Substring(0, 255);
             }
+
             using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();

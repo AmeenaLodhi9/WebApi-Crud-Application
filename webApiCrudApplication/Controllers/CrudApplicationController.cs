@@ -15,23 +15,30 @@ namespace webApiCrudApplication.Controllers
     public class CrudApplicationController : ControllerBase
     {
         public readonly ICrudApplicationSL _cRudApplicationSL;
-
-        public CrudApplicationController(ICrudApplicationSL cRudApplicationSL)
+        private readonly Logger _logger;
+         
+        public CrudApplicationController(ICrudApplicationSL cRudApplicationSL, Logger logger)
         {
             _cRudApplicationSL = cRudApplicationSL;
+            _logger = logger;
         }
         [HttpPost]
         public IActionResult Login([FromBody] CommonLayer.model.LoginRequest request)
         {
             var response = _cRudApplicationSL.Authenticate(request);
+            _logger.Log("Login Successfully", null);
+
 
             if (response == null)
             {
+                _logger.Log("Invalid username or password", null);
+
                 return Unauthorized(new
                 {
                     IsSuccess = false,
                     Message = "Invalid username or password",
                     Token = (string)null
+
                 });
             }
 
@@ -53,7 +60,8 @@ namespace webApiCrudApplication.Controllers
                 new { Id = 1, Name = "Admin User 1" },
                 new { Id = 2, Name = "Admin User 2" }
             };
-           
+
+            _logger.Log("You are authorized as Admin!", null);
 
             return Ok(new { IsSuccess = true, Message= "You are authorized as Admin!",Data });
         }
@@ -68,6 +76,7 @@ namespace webApiCrudApplication.Controllers
                 new { Id = 2, Name = "User User 2" }
             };
 
+            _logger.Log("You are authorized as User!", null);
 
             return Ok(new { IsSuccess = true, Message = "You are authorized as User!", Data });
         }
@@ -127,6 +136,7 @@ namespace webApiCrudApplication.Controllers
             {
                 // Call the service layer to add the information
                 response = await _cRudApplicationSL.AddInformation(request);
+                _logger.Log("Add Information Successfully", null);
 
                 if (!response.IsSuccess)
                 {
@@ -136,6 +146,7 @@ namespace webApiCrudApplication.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { IsSuccess = false, Message = ex.Message });
+                _logger.Log(ex.Message, ex.StackTrace);
             }
 
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
@@ -183,6 +194,8 @@ namespace webApiCrudApplication.Controllers
                 {
                     return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
                 }
+                _logger.Log("Read All Information Successfully", null);
+
 
                 // Return success response with data, including pagination info
                 return Ok(new
@@ -195,9 +208,12 @@ namespace webApiCrudApplication.Controllers
                     PageIndex = response.PageIndex,
                     PageSize = response.PageSize
                 });
+
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.Message, null);
+
                 // Handle exception and return error response
                 return StatusCode(500, new
                 {
@@ -229,9 +245,13 @@ namespace webApiCrudApplication.Controllers
                 {
                     return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message });
                 }
+                _logger.Log("GetInformationById Successfully", null);
+
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.Message, null);
+
                 // Handle exceptions and return internal server error
                 return StatusCode(500, new { IsSuccess = false, Message = ex.Message });
             }
@@ -250,10 +270,14 @@ namespace webApiCrudApplication.Controllers
             try
             {
                 response = await _cRudApplicationSL.UpdateAllInformationById(request);
+                _logger.Log("UpdateAllInformationById Successfully!", null);
+
 
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.Message, null);
+
                 response.IsSuccess = false;
                 response.Message = ex.Message;
 
@@ -273,11 +297,16 @@ namespace webApiCrudApplication.Controllers
 
             try
             {
-                response = await _cRudApplicationSL.DeleteInformationById(request);
+                response = await _cRudApplicationSL.DeleteInformationById(request); 
+                _logger.Log("DeleteInformationById Successfully", null);
+
+
 
             }
             catch (Exception ex)
             {
+                _logger.Log(ex.Message, null);
+
                 response.IsSuccess = false;
                 response.Message = ex.Message;
 

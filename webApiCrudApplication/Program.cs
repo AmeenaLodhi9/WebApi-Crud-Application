@@ -25,9 +25,14 @@ builder.Services.AddScoped<ICrudApplicationRL, CrudApplicationRL>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register your logger service
-var connectionString = builder.Configuration.GetConnectionString("MySqlDBString");
-builder.Services.AddSingleton(Logger.GetInstance(connectionString));
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration); // Ensure IConfiguration is registered
+// Register Logger as Singleton and inject connection string
+builder.Services.AddSingleton<Logger>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("MySqlDBString");
+    return new Logger(connectionString);  // Inject connection string from configuration
+});
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

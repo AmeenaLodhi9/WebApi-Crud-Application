@@ -1,4 +1,6 @@
-﻿namespace webApiCrudApplication.CommonLayer.model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace webApiCrudApplication.CommonLayer.model
 {
 
     public class GetInformationByIdRequest
@@ -6,8 +8,9 @@
         public int UserID { get; set; }
 
         // Mark these as nullable if they can be null or left empty in certain cases
-        public string? UserName { get; set; }
-        public string? EmailId { get; set; }
+        public string UserName { get; set; }
+        [Required]
+        public string EmailId { get; set; }
         public string? MobileNumber { get; set; }
 
         public int Salary { get; set; }

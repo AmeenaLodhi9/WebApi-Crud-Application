@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using Microsoft.Extensions.Logging;
+using MySqlConnector;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -14,14 +15,16 @@ namespace webApiCrudApplication.RepositoryLayer
     {
         public readonly IConfiguration _configuration;
         public readonly MySqlConnection _mySqlConnection;
-        private readonly string _connectionString;
-        public CrudApplicationRL(IConfiguration configuration)
+        private readonly Logger _logger;
+
+        public CrudApplicationRL(IConfiguration configuration, Logger logger)
         {
             _configuration = configuration;
-            _connectionString = _configuration["ConnectionStrings:MySqlDBString"];
 
-            // Retrieve the connection string
-            string myConnection = _configuration["ConnectionStrings:MySqlDBString"];
+            _logger = logger;
+
+            // Retrieve the connection string from the configuration
+            string myConnection = _configuration.GetConnectionString("MySqlDBString");
 
             // Null-check the connection string
             if (string.IsNullOrEmpty(myConnection))
@@ -66,17 +69,18 @@ namespace webApiCrudApplication.RepositoryLayer
                         response.IsSuccess = false;
                         response.Message = "Query Not Executed";
                     }
-
+                   // _logger.Log("Add Information Successfully", null);
 
                 }
-                Logger.GetInstance(_connectionString).Log("Add Information successfully.", string.Empty);
+               
 
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-                Logger.GetInstance(_connectionString).Log("Error AddInformation", ex.ToString());
+               
+                //_logger.Log(ex.Message,ex.StackTrace);
 
             }
             finally
@@ -259,7 +263,7 @@ namespace webApiCrudApplication.RepositoryLayer
                         response.IsSuccess = false;
                         response.Message = "Query Not Executed";
                     }
-                    Logger.GetInstance(_connectionString).Log("UpdateAllInformationById", string.Empty);
+                    
 
 
 
@@ -270,7 +274,7 @@ namespace webApiCrudApplication.RepositoryLayer
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-                Logger.GetInstance(_connectionString).Log("Error UpdateAllInformationById", ex.ToString());
+                
 
 
             }
@@ -314,14 +318,14 @@ namespace webApiCrudApplication.RepositoryLayer
 
 
                 }
-                Logger.GetInstance(_connectionString).Log("DeleteInformationById ", string.Empty);
+               
 
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-                Logger.GetInstance(_connectionString).Log("DeleteInformationById", ex.ToString());
+              
 
 
             }
@@ -381,14 +385,14 @@ namespace webApiCrudApplication.RepositoryLayer
                         }
                     }
                 }
-                Logger.GetInstance(_connectionString).Log("GetInformationById ", string.Empty);
+                
 
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-                Logger.GetInstance(_connectionString).Log("GetInformationById ", ex.ToString());
+                
 
             }
             finally
