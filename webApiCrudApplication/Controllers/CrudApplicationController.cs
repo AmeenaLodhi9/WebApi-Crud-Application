@@ -16,9 +16,9 @@ namespace webApiCrudApplication.Controllers
     {
         public readonly IUserSL _userSL;
         public readonly IInformationSL _informationSL;
-        private readonly Logger _logger;
+        private readonly webApiCrudApplication.Logs.ILogger _logger;
          
-        public CrudApplicationController(IUserSL userSL, IInformationSL informationSL,Logger logger)
+        public CrudApplicationController(IUserSL userSL, IInformationSL informationSL, webApiCrudApplication.Logs.ILogger logger)
         {
             _userSL = userSL;
             _informationSL = informationSL;            
@@ -242,12 +242,13 @@ namespace webApiCrudApplication.Controllers
                 if (response.IsSuccess)
                 {
                     return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.Data });
+                    _logger.Log("GetInformationById Successfully", null);
+
                 }
                 else
                 {
                     return NotFound(new { IsSuccess = response.IsSuccess, Message = response.Message });
                 }
-                _logger.Log("GetInformationById Successfully", null);
 
             }
             catch (Exception ex)

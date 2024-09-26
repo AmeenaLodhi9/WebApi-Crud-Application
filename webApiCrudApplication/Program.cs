@@ -33,18 +33,27 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration); // Ensure IConfiguration is registered
 // Register Logger as Singleton and inject connection string
-builder.Services.AddSingleton<Logger>(provider =>
+/*builder.Services.AddSingleton<Logger>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
     var connectionString = configuration.GetConnectionString("MySqlDBString");
     return new Logger(connectionString);  // Inject connection string from configuration
+});*/
+builder.Services.AddSingleton<webApiCrudApplication.Logs.ILogger>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("MySqlDBString");
+    return new webApiCrudApplication.Logs.Logger(connectionString);
 });
+
+
+
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
         // Resolve the logger from the service provider
     var serviceProvider = builder.Services.BuildServiceProvider();
-    var logger = serviceProvider.GetRequiredService<Logger>();
+    var logger = serviceProvider.GetRequiredService<webApiCrudApplication.Logs.ILogger>();
     options.InvalidModelStateResponseFactory = context =>
     {
         var errors = context.ModelState.Values

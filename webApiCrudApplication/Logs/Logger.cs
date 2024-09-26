@@ -1,26 +1,25 @@
 ﻿using MySqlConnector;
 using System;
 
-namespace webApiCrudApplication.CommonLayer.model
+namespace webApiCrudApplication.Logs
 {
-    public class Logger
+    public class Logger: ILogger
     {
         private readonly string _connectionString;
 
-        // Constructor accepts the connection string, injected by the DI container
         public Logger(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        // Log method that inserts logs into the database
         public void Log(string message, string stackTrace)
         {
-            Console.WriteLine($"Log: {message}, StackTrace: {stackTrace}");
             if (message.Length > 255)
             {
                 message = message.Substring(0, 255);
             }
+
+            Console.WriteLine($"Log: {message}, StackTrace: {stackTrace}");
 
             using (var connection = new MySqlConnection(_connectionString))
             {
