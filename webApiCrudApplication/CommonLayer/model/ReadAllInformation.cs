@@ -21,6 +21,7 @@ namespace webApiCrudApplication.CommonLayer.model
     {
         public bool IsSuccess { get; set; }  // Corrected property name
         public required string Message { get; set; }
+
     
         public int? PageNumber { get; set; }  // Optional
         public int? PageSize { get; set; }

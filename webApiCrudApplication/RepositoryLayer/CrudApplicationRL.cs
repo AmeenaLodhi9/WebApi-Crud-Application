@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Globalization;
 using webApiCrudApplication.Common_Util;
 using webApiCrudApplication.CommonLayer.model;
+using static webApiCrudApplication.Controllers.CrudApplicationController;
 
 
 
@@ -398,11 +399,12 @@ namespace webApiCrudApplication.RepositoryLayer
         {
             User user = null;
 
-            using (var command = new MySqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Password",_mySqlConnection))
+            try
             {
+                _mySqlConnection.Open(); // Ensure connection is opened properly
 
-                    _mySqlConnection.Open();
-
+                using (var command = new MySqlCommand("SELECT * FROM Users WHERE Username = @Username AND Password = @Password", _mySqlConnection))
+                {
                     command.Parameters.AddWithValue("@Username", username);
                     command.Parameters.AddWithValue("@Password", password);
 
@@ -419,6 +421,21 @@ namespace webApiCrudApplication.RepositoryLayer
                             };
                         }
                     }
+                }
+            }
+            catch (MySqlException )
+            {
+                //_logger.Log($"MySQL Server Error: {ex.Message}", ex.StackTrace);
+                throw new BadRequestException("Database connection failed. Please try again later.");
+            }
+            catch (Exception ex)
+            {
+               //_logger.Log($"Error: {ex.Message}", ex);
+                throw new BadRequestException("An error occurred while processing your request.");
+            }
+            finally
+            {
+                _mySqlConnection.Close(); // Always close connection
             }
 
             return user;

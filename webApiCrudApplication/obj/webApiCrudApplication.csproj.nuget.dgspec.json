@@ -50,9 +50,21 @@
               "target": "Package",
               "version": "[7.0.18, )"
             },
+            "Microsoft.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.AspNetCore.Mvc": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.7.1, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -69,6 +81,16 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.7.1, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.1, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.2, )"
             }
           },
           "imports": [

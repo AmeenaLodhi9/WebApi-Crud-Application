@@ -7,6 +7,7 @@ using webApiCrudApplication.Services;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using MySql.Data.MySqlClient;
 
 namespace webApiCrudApplication.Controllers
 {
@@ -25,39 +26,68 @@ namespace webApiCrudApplication.Controllers
             _logger = logger;
         }
         [HttpPost]
+/*        [ProducesResponseType(typeof(LoginResponse), 200)]
+        [ProducesResponseType(typeof(LoginResponse), 401)]
+        [ProducesResponseType(typeof(LoginResponse), 400)]
+        [ProducesResponseType(typeof(LoginResponse), 500)]*/
         public IActionResult Login([FromBody] CommonLayer.model.LoginRequest request)
         {
-            var response = _userSL.Authenticate(request);
-            _logger.Log("Login Successfully", null);
-
-
-            if (response == null)
+            try
             {
-                _logger.Log("Invalid username or password", null);
+                // Check for null request
+                if (request == null)
+                {
+                    throw new BadRequestException("Request cannot be null");
+                }
 
-                return Unauthorized(new
+                var response = _userSL .Authenticate(request);
+
+                if (response.IsSuccess)
+                {
+                    return Ok(response);
+                }
+                else
+                {
+                    return Unauthorized(response);
+                }
+            }
+            catch (BadRequestException ex)
+            {
+                _logger.Log(ex.Message, null);
+                return BadRequest(new LoginResponse
                 {
                     IsSuccess = false,
-                    Message = "Invalid username or password",
-                    Token = (string)null
-
+                    Message = ex.Message,
+                    Token = null
                 });
             }
-
-            return Ok(new
+            catch (Exception ex)
             {
-                IsSuccess = response.IsSuccess,
-                Message = response.Message,
-                Token = response.Token
-            });
+                _logger.Log($"Error: {ex.Message}", ex.ToString());
+                return StatusCode(500, new LoginResponse
+                {
+                    IsSuccess = false,
+                    Message = "An error occurred while processing your request.",
+                    Token = null
+                });
+            }
         }
+
+    
+
+    
+        public class BadRequestException : Exception
+        {
+            public BadRequestException(string message) : base(message) { }
+        }
+
 
         // Example of a protected route
         [HttpGet]
         [Authorize(Roles = "Admin")] // Only Admin role can access this
         public IActionResult GetAdminData()
         {
-            var Data = new[]
+            var data = new[]
             {
                 new { Id = 1, Name = "Admin User 1" },
                 new { Id = 2, Name = "Admin User 2" }
@@ -65,14 +95,18 @@ namespace webApiCrudApplication.Controllers
 
             _logger.Log("You are authorized as Admin!", null);
 
-            return Ok(new { IsSuccess = true, Message= "You are authorized as Admin!",Data });
+            return Ok(new AuthenticationDataResponse { IsSuccess = true, Message = "You are authorized as Admin!",Data=data});
         }
 
         [HttpGet]
         [Authorize(Roles = "User")] // Only Admin role can access this
         public IActionResult GetUserData()
         {
-            var Data = new[]
+            if (!User.IsInRole("User"))
+            {
+                return Forbid(); // Explicitly return Forbid if the user is not in the "User" role
+            }
+            var data = new[]
             {
                 new { Id = 1, Name = "User User 1" },
                 new { Id = 2, Name = "User User 2" }
@@ -80,13 +114,13 @@ namespace webApiCrudApplication.Controllers
 
             _logger.Log("You are authorized as User!", null);
 
-            return Ok(new { IsSuccess = true, Message = "You are authorized as User!", Data });
+            return Ok(new AuthenticationDataResponse { IsSuccess = true, Message = "You are authorized as User!", Data= data });
         }
 
         [HttpPost]
         public async Task<IActionResult> AddInformation([FromBody] AddInformationRequest request)
         {
-            AddInformationResponse response = new AddInformationResponse
+            var response = new AddInformationResponse
             {
                 IsSuccess = true,
                 Message = "" // Default empty message
@@ -99,7 +133,7 @@ namespace webApiCrudApplication.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "UserName is required.";
-                return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return BadRequest(response); // Consistently returning AddInformationResponse
             }
 
             // Check for EmailId
@@ -107,7 +141,7 @@ namespace webApiCrudApplication.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "EmailId is required or should not be 'string'.";
-                return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return BadRequest(response);
             }
 
             // Check for MobileNumber
@@ -115,7 +149,7 @@ namespace webApiCrudApplication.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "MobileNumber is required or should not be 'string'.";
-                return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return BadRequest(response);
             }
 
             // Check for Salary
@@ -123,7 +157,7 @@ namespace webApiCrudApplication.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "Salary must be greater than 0.";
-                return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return BadRequest(response);
             }
 
             // Check for Gender
@@ -131,7 +165,7 @@ namespace webApiCrudApplication.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "Gender is required or should not be 'string'.";
-                return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                return BadRequest(response);
             }
 
             try
@@ -142,17 +176,20 @@ namespace webApiCrudApplication.Controllers
 
                 if (!response.IsSuccess)
                 {
-                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                    return BadRequest(response); // Returning the same response object
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { IsSuccess = false, Message = ex.Message });
+                response.IsSuccess = false;
+                response.Message = ex.Message;
                 _logger.Log(ex.Message, ex.StackTrace);
+                return BadRequest(response);
             }
 
-            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+            return Ok(response); // Return the same response object for a successful request
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ReadAllInformation(
@@ -188,19 +225,19 @@ namespace webApiCrudApplication.Controllers
                 if (response.readAllInformation == null || !response.readAllInformation.Any())
                 {
                     // Return 404 if no records found
-                    return NotFound(new { IsSuccess = false, Message = "No records found." });
+                    return NotFound(new ReadAllInformationResponse { IsSuccess = false, Message = "No records found." });
                 }
 
                 // Check for unsuccessful response
                 if (!response.IsSuccess)
                 {
-                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                    return BadRequest(new ReadAllInformationResponse { IsSuccess = response.IsSuccess, Message = response.Message });
                 }
                 _logger.Log("Read All Information Successfully", null);
 
 
                 // Return success response with data, including pagination info
-                return Ok(new
+                return Ok(new 
                 {
                     IsSuccess = response.IsSuccess,
                     Message = response.Message,

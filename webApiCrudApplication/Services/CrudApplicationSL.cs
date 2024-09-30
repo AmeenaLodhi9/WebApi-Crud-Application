@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using webApiCrudApplication.CommonLayer.model;
 using webApiCrudApplication.RepositoryLayer;
+using static webApiCrudApplication.Controllers.CrudApplicationController;
 
 namespace webApiCrudApplication.Services
 {
@@ -155,28 +157,57 @@ namespace webApiCrudApplication.Services
         public LoginResponse Authenticate(LoginRequest request)
         {
 
-            var user =  _userRL.GetUserByUsernameAndPassword(request.Username, request.Password);
-
-            // If the user is null, authentication failed
-            if (user == null)
+            try
             {
+                // Attempt to retrieve the user from the database
+                var user = _userRL.GetUserByUsernameAndPassword(request.Username, request.Password);
+
+                // If the user is null, authentication failed
+                if (user == null)
+                {
+                    return new LoginResponse
+                    {
+                        IsSuccess = false,
+                        Message = "Invalid username or password",
+                        Token = null
+                    };
+                }
+
+                // If user is authenticated, generate the token and return it
+                var token = GenerateJwtToken(user);
+
+                return new LoginResponse
+                {
+                    IsSuccess = true,
+                    Message = "Login Successfully",
+                    Token = token
+                };
+            }
+            catch (MySqlException ex)
+            {
+                //_logger.Log($"MySQL Server Error: {ex.Message}", ex.StackTrace);
                 return new LoginResponse
                 {
                     IsSuccess = false,
-                    Message = "Invalid username or password",
+                    Message = "Database connection failed. Please try again later.",
                     Token = null
                 };
             }
-
-            // If user is authenticated, generate the token and return it
-            var token = GenerateJwtToken(user);
-
-            return new LoginResponse
+            catch (BadRequestException ex)
             {
-                IsSuccess = true,
-                Message = "Login Successfully",
-                Token = token
-            };
+                //_logger.Log(ex.Message, null);
+                return new LoginResponse
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                    Token = null
+                };
+            }
+            catch (Exception ex)
+            {
+                //_logger.Log($"Error: {ex.Message}", ex);
+                throw new BadRequestException("An error occurred while processing your request.");
+            }
         }
         public bool IsUserInRole(string username, string role)
         {

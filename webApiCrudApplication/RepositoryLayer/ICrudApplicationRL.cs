@@ -5,6 +5,7 @@ namespace webApiCrudApplication.RepositoryLayer
 
         public interface IUserRL
         {
+        //public Task<User> GetUserByUsernameAndPassword(int id);
             User GetUserByUsernameAndPassword(string username, string password);
             string GetUserRole(string username);
 

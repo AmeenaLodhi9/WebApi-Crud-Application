@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Queries>
+	<AddInformation>
+		Insert into crudoperation.crudapplication(UserName,EmailId,MobileNumber,Gender,Salary)
+		values(@UserName,@EmailId,@MobileNumber,@Gender,@Salary);
+
+	</AddInformation>
+	<ReadAllInformation>
+		<![CDATA[
+    SELECT *
+    FROM crudoperation.crudapplication
+    WHERE IsActive = 1
+    ORDER BY
+    CASE
+      WHEN @SortBy = 'UserName' THEN UserName
+      WHEN @SortBy = 'EmailId' THEN EmailId
+      WHEN @SortBy = 'Salary' THEN Salary
+      WHEN @SortBy = 'Gender' THEN Gender
+      ELSE UserID
+    END @SortDirection
+    LIMIT @PageSize OFFSET @Offset;
+    ]]>
+
+
+	</ReadAllInformation>
+	<UpdateAllInformationById>
+		Update crudoperation.crudapplication
+		SET UserName=@UserName,
+			EmailId=@EmailId,
+			MobileNumber=@MobileNumber,
+			Gender=@Gender,
+			Salary=@Salary
+			WHERE UserID = @UserID;
+	</UpdateAllInformationById>
+	<DeleteInformationById>
+		UPDATE crudoperation.crudapplication
+		SET IsActive =0
+		WHERE UserId= @UserId;
+	</DeleteInformationById>
+	<GetInformationById>
+		SELECT *
+		FROM crudoperation.crudapplication
+		WHERE UserID = @UserId;
+	</GetInformationById>
+	<GetByUserNameAsync>
+		SELECT * FROM Users WHERE UserName = @UserName AND IsActive = 1
+	</GetByUserNameAsync>
+	<GetByIdAsync>
+		SELECT * FROM Users WHERE UserID = @UserID AND IsActive = 1
+	</GetByIdAsync>
+</Queries>
